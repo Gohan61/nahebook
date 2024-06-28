@@ -41,12 +41,12 @@ exports.signup = [
           age: req.body.age,
           bio: req.body.bio,
         });
-        if (await User.exists({ username: req.body.username })) {
+        if (!errors.isEmpty()) {
+          return res.status(500).json({ errors, user });
+        } else if (await User.exists({ username: req.body.username })) {
           return res
             .status(500)
             .json({ message: "Username already exists", user });
-        } else if (!errors.isEmpty()) {
-          return res.status(500).json({ errors, user });
         } else {
           await user.save();
           return res.status(200).json({ message: "You are signed up" });
@@ -59,8 +59,8 @@ exports.signup = [
 ];
 
 exports.signin = [
-  body("username").trim().escape(),
-  body("password").trim().escape(),
+  body("username").trim().isLength({ min: 5 }).escape(),
+  body("password").trim().escape({ min: 5 }),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
