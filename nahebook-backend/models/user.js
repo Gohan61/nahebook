@@ -11,6 +11,9 @@ const UserSchema = new Schema({
   profile_picture: { type: String, required: false },
   posts: [{ type: Schema.Types.ObjectId, ref: "Posts", required: false }],
   following: [{ type: Schema.Types.ObjectId, ref: "User", required: false }],
+  pendingFollow: [
+    { type: Schema.Types.ObjectId, ref: "User", required: false },
+  ],
 });
 
 module.exports = mongoose.model("User", UserSchema);
