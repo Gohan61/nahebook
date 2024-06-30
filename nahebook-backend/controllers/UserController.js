@@ -174,3 +174,17 @@ exports.update_profile = [
     }
   }),
 ];
+
+exports.get_user_list = asyncHandler(async (req, res, next) => {
+  const users = await User.find(
+    {},
+    "first_name last_name username age profile_picture",
+  ).exec();
+
+  if (!users) {
+    const err = { message: "No users found", status: 404 };
+    return next(err);
+  } else {
+    return res.status(200).json({ users });
+  }
+});

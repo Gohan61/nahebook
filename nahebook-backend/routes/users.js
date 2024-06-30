@@ -9,6 +9,12 @@ router.post("/signin", user_controller.signin);
 router.post("/signup", user_controller.signup);
 
 router.get(
+  "/list",
+  passport.authenticate("jwt", { session: false }),
+  user_controller.get_user_list,
+);
+
+router.get(
   "/profile/:userId",
   passport.authenticate("jwt", { session: false }),
   user_controller.get_profile,
