@@ -34,4 +34,10 @@ router.delete(
   post_controller.delete_comment,
 );
 
+router.post(
+  "/like/:postId",
+  passport.authenticate("jwt", { session: false }),
+  post_controller.new_like,
+);
+
 module.exports = router;

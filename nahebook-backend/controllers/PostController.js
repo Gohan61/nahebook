@@ -132,3 +132,25 @@ exports.delete_comment = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: "Comment deleted" });
   }
 });
+
+exports.new_like = asyncHandler(async (req, res, next) => {
+  const post = await Post.findById(req.params.postId).exec();
+
+  if (!post) {
+    const err = { message: "No post found", status: 404 };
+    return next(err);
+  } else {
+    const updatedPost = new Post({
+      text: post.text,
+      imgUrl: post.imgUrl,
+      date: post.date,
+      userId: post.userId,
+      _id: post._id,
+      likes: post.likes,
+    });
+
+    updatedPost.likes.push(req.body.userId);
+    await Post.findByIdAndUpdate(post._id, updatedPost).exec();
+    return res.status(200).json({ message: "Like saved" });
+  }
+});
