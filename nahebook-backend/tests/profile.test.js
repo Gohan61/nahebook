@@ -5,9 +5,11 @@ const user = require("../routes/users");
 const initializeMongoServer = require("../config/databaseTest");
 require("../config/passportTest");
 const Usermodel = require("../models/user");
+const Postmodel = require("../models/posts");
 const bcrypt = require("bcryptjs");
 let token;
 const userId = "621ff30d2a3e781873fcb663";
+const username = "testing";
 
 beforeAll(async () => {
   await initializeMongoServer();
@@ -46,6 +48,17 @@ beforeAll(async () => {
   } catch (err) {
     console.log(err);
   }
+
+  const post = new Postmodel({
+    text: "Hello world",
+    imgUrl: "http://test.io",
+    date: "01-01-2022",
+    userId: userId,
+    username: username,
+    _id: "621ff30d2a3e781873fcb669",
+  });
+
+  await post.save();
 });
 
 app.use(express.json());
@@ -81,6 +94,7 @@ test("Gets users profile", async () => {
     .set(authorization)
     .set("Content-Type", "application/json")
     .then((res) => {
+      console.log(res.body.user.posts);
       expect(Object.keys(res.body.user).length).toBe(9);
       expect(res.body.user.posts.length).toBe(1);
       expect(res.body.user.following.length).toBe(1);
