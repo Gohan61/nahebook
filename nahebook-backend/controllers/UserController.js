@@ -103,7 +103,9 @@ exports.get_profile = asyncHandler(async (req, res, next) => {
   const user = await User.findById(
     req.params.userId,
     "first_name last_name username age bio profile_picture posts following",
-  ).exec();
+  )
+    .populate("posts")
+    .exec();
 
   if (!user) {
     const err = { message: "User not found", status: 404 };
