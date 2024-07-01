@@ -48,8 +48,8 @@ test("User can sign in", async () => {
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.username).toBe("testing");
-      expect(res.body.token).not.toBeNull();
-      expect(res.body.userId).not.toBeNull();
+      expect(res.body.token).not.toBeFalsy();
+      expect(res.body.userId).not.toBeFalsy();
     });
 });
 
