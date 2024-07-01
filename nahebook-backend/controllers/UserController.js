@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const getGravatarUrl = require("../config/generate-gravatar");
 
 exports.signup = [
   body("first_name", "First name must be between 2 and 50 characters")
@@ -40,6 +41,7 @@ exports.signup = [
           password: hashedPassword,
           age: req.body.age,
           bio: req.body.bio,
+          profile_picture: getGravatarUrl(req.body.username),
         });
         if (!errors.isEmpty()) {
           return res.status(500).json({ errors, user });
