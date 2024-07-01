@@ -42,6 +42,7 @@ exports.new_post = [
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     let imgData;
+    const user = await User.findById(req.body.userId);
 
     if (req.body.imgUrl) {
       try {
@@ -57,7 +58,8 @@ exports.new_post = [
       text: req.body.text,
       imgUrl: imgData,
       date: format(new Date(), "dd/MM/yyyy"),
-      userId: req.body.userId,
+      userId: user._id,
+      username: user.username,
     });
 
     if (!errors.isEmpty()) {
@@ -107,6 +109,7 @@ exports.update_post = [
       imgUrl: imgData || post.imgUrl,
       date: post.date,
       userId: req.body.userId,
+      username: post.username,
       _id: post._id,
     });
 
@@ -169,6 +172,7 @@ exports.new_like = asyncHandler(async (req, res, next) => {
       imgUrl: post.imgUrl,
       date: post.date,
       userId: post.userId,
+      username: post.username,
       _id: post._id,
       likes: post.likes,
     });
