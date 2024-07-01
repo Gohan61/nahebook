@@ -7,6 +7,7 @@ const initializeMongoServer = require("../config/databaseTest");
 require("../config/passportTest");
 const Usermodel = require("../models/user");
 const Postmodel = require("../models/posts");
+const CommentModel = require("../models/comments");
 const bcrypt = require("bcryptjs");
 let token;
 const userId = "621ff30d2a3e781873fcb663";
@@ -44,6 +45,17 @@ beforeAll(async () => {
   });
 
   await post.save();
+
+  const comment = new CommentModel({
+    userId: userId,
+    username: "testing",
+    timestamp: "01-01-2022",
+    text: "This comment",
+    postId: "621ff30d2a3e781873fcb669",
+    _id: "621ff30d2a3e781873fcb670",
+  });
+
+  await comment.save();
 });
 
 app.use(express.json({ limit: "10mb" }));
@@ -83,7 +95,7 @@ test("User can post new comment", async () => {
   };
 
   const res = await request(app)
-    .post("/post/621ff30d2a3e781873fcb669/comment")
+    .post("/post/comment/621ff30d2a3e781873fcb669")
     .set(authorization)
     .set("Content-Type", "application/json")
     .send(payload)
@@ -106,7 +118,7 @@ test("Throws validation error", async () => {
   };
 
   const res = await request(app)
-    .post("/post/621ff30d2a3e781873fcb669/comment")
+    .post("/post/comment/621ff30d2a3e781873fcb669")
     .set(authorization)
     .set("Content-Type", "application/json")
     .send(payload)
@@ -120,9 +132,29 @@ test("Throws validation error", async () => {
 
 test("Returns authorization error", async () => {
   const res = await request(app)
-    .post("/post/621ff30d2a3e781873fcb669/comment")
+    .post("/post/comment/621ff30d2a3e781873fcb669")
     .set("Content-Type", "application/json")
     .then((res) => {
       expect(res.status).toBe(401);
+    });
+});
+
+test("Deletes comment", async () => {
+  const authorization = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const payload = {
+    commentId: "621ff30d2a3e781873fcb670",
+  };
+
+  const res = await request(app)
+    .delete("/post/comment/621ff30d2a3e781873fcb669")
+    .set(authorization)
+    .set("Content-Type", "application/json")
+    .send(payload)
+    .then((res) => {
+      expect(res.status).toBe(200);
+      expect(res.body.message).not.toBeFalsy();
     });
 });
