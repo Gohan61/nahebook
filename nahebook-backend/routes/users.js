@@ -26,4 +26,10 @@ router.put(
   user_controller.update_profile,
 );
 
+router.post(
+  "/follow/:userId",
+  passport.authenticate("jwt", { session: false }),
+  user_controller.follow_user,
+);
+
 module.exports = router;

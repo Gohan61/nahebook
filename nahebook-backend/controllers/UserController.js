@@ -190,3 +190,74 @@ exports.get_user_list = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ users });
   }
 });
+
+exports.follow_user = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.userId);
+  const followUser = await User.findById(req.body.followUserId);
+
+  if (!user) {
+    const err = { message: "No user found", status: 404 };
+    return next(err);
+  } else if (!followUser) {
+    const err = { message: "No user found to follow", status: 404 };
+    return next(err);
+  }
+
+  const updatedUser = new User({
+    first_name: user.first_name,
+    last_name: user.last_name,
+    username: user.username,
+    password: user.password,
+    age: user.age,
+    bio: user.bio,
+    profile_picture: user.profile_picture,
+    posts: user.posts,
+    following: user.following,
+    pendingFollow: user.pendingFollow,
+    _id: user._id,
+  });
+
+  const updatedFollowUser = new User({
+    first_name: followUser.first_name,
+    last_name: followUser.last_name,
+    username: followUser.username,
+    password: followUser.password,
+    age: followUser.age,
+    bio: followUser.bio,
+    profile_picture: followUser.profile_picture,
+    posts: followUser.posts,
+    following: followUser.following,
+    pendingFollow: followUser.pendingFollow,
+    _id: followUser._id,
+  });
+  if (user.pendingFollow.includes(followUser._id)) {
+    updatedUser.pendingFollow.splice(
+      updatedUser.pendingFollow.indexOf(followUser._id),
+      1,
+    );
+    updatedFollowUser.pendingFollow.splice(
+      updatedFollowUser.pendingFollow.indexOf(user._id),
+      1,
+    );
+    if (req.body.answer === "accept") {
+      updatedUser.following.push(followUser._id);
+      updatedFollowUser.following.push(user._id);
+
+      await User.findByIdAndUpdate(user._id, updatedUser).exec();
+      await User.findByIdAndUpdate(followUser._id, updatedFollowUser).exec();
+      return res.status(200).json({ message: "Following succesful" });
+    } else if (req.body.answer === "deny") {
+      await User.findByIdAndUpdate(user._id, updatedUser).exec();
+      await User.findByIdAndUpdate(followUser._id, updatedFollowUser).exec();
+      return res.status(200).json({ message: "Denied follow request" });
+    }
+  } else {
+    updatedUser.pendingFollow.push(followUser._id);
+
+    updatedFollowUser.pendingFollow.push(user._id);
+
+    await User.findByIdAndUpdate(user._id, updatedUser).exec();
+    await User.findByIdAndUpdate(followUser._id, updatedFollowUser).exec();
+    return res.status(200).json({ message: "Follow request send" });
+  }
+});
