@@ -9,6 +9,30 @@ const jwt = require("jsonwebtoken");
 const uploadToCloudinary = require("../config/cloudinary");
 const { formatRelative, subDays, format } = require("date-fns");
 
+exports.get_posts = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.userId, "following");
+  let ownPosts = await User.findById(req.params.userId)
+    .populate("posts")
+    .exec();
+
+  let followerPosts = await User.find({ _id: { $in: user.following } })
+    .populate("posts")
+    .exec();
+
+  if (!ownPosts) {
+    const err = { message: "Could not find own posts", status: 404 };
+    return next(err);
+  } else if (!followerPosts) {
+    const err = { message: "Could not find follower's posts", status: 404 };
+    return next(err);
+  } else {
+    ownPosts = ownPosts.posts;
+    followerPosts = followerPosts.map((user) => user.posts);
+
+    return res.status(200).json({ ownPosts, followerPosts });
+  }
+});
+
 exports.new_post = [
   body("text", "Maximun post description is 50 characters")
     .trim()

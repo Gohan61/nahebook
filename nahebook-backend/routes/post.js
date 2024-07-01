@@ -4,6 +4,12 @@ const passport = require("passport");
 
 const post_controller = require("../controllers/PostController");
 
+router.get(
+  "/:userId",
+  passport.authenticate("jwt", { session: false }),
+  post_controller.get_posts,
+);
+
 router.post(
   "/new",
   passport.authenticate("jwt", { session: false }),
