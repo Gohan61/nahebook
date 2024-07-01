@@ -152,6 +152,8 @@ exports.update_profile = [
           profile_picture: currentUser.profile_picture,
           posts: currentUser.posts,
           following: currentUser.following,
+          pendingFollow: currentUser.pendingFollow,
+          receivedRequestFollow: currentUser.receivedRequestFollow,
           _id: currentUser._id,
         });
 
@@ -180,7 +182,7 @@ exports.update_profile = [
 exports.get_user_list = asyncHandler(async (req, res, next) => {
   const users = await User.find(
     {},
-    "first_name last_name username age profile_picture",
+    "first_name last_name username age profile_picture following pendingFollow receivedRequestFollow",
   ).exec();
 
   if (!users) {
@@ -214,6 +216,7 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
     posts: user.posts,
     following: user.following,
     pendingFollow: user.pendingFollow,
+    receivedRequestFollow: user.receivedRequestFollow,
     _id: user._id,
   });
 
@@ -228,6 +231,7 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
     posts: followUser.posts,
     following: followUser.following,
     pendingFollow: followUser.pendingFollow,
+    receivedRequestFollow: followUser.receivedRequestFollow,
     _id: followUser._id,
   });
   if (user.pendingFollow.includes(followUser._id)) {
@@ -237,6 +241,10 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
     );
     updatedFollowUser.pendingFollow.splice(
       updatedFollowUser.pendingFollow.indexOf(user._id),
+      1,
+    );
+    updatedFollowUser.receivedRequestFollow.splice(
+      updatedFollowUser.receivedRequestFollow.indexOf(user._id),
       1,
     );
     if (req.body.answer === "accept") {
@@ -255,6 +263,7 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
     updatedUser.pendingFollow.push(followUser._id);
 
     updatedFollowUser.pendingFollow.push(user._id);
+    updatedFollowUser.receivedRequestFollow.push(user._id);
 
     await User.findByIdAndUpdate(user._id, updatedUser).exec();
     await User.findByIdAndUpdate(followUser._id, updatedFollowUser).exec();
