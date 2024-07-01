@@ -28,4 +28,10 @@ router.post(
   post_controller.new_comment,
 );
 
+router.delete(
+  "/comment/:postId",
+  passport.authenticate("jwt", { session: false }),
+  post_controller.delete_comment,
+);
+
 module.exports = router;

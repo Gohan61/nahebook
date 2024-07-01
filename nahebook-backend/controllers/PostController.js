@@ -45,32 +45,6 @@ exports.new_post = [
   }),
 ];
 
-exports.new_comment = [
-  body("text", "Comment must be between 1 and 30 characters")
-    .trim()
-    .isLength({ min: 1, max: 30 })
-    .escape(),
-
-  asyncHandler(async (req, res, next) => {
-    const errors = validationResult(req);
-
-    const comment = new Comment({
-      userId: req.body.userId,
-      username: req.body.username,
-      timestamp: formatRelative(subDays(new Date(), 0), new Date()),
-      text: req.body.text,
-      postId: req.params.postId,
-    });
-
-    if (!errors.isEmpty()) {
-      return res.status(500).json({ errors, comment });
-    } else {
-      await comment.save();
-      return res.status(200).json({ message: "Comment saved" });
-    }
-  }),
-];
-
 exports.delete_post = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.postId).exec();
 
@@ -120,3 +94,41 @@ exports.update_post = [
     }
   }),
 ];
+
+exports.new_comment = [
+  body("text", "Comment must be between 1 and 30 characters")
+    .trim()
+    .isLength({ min: 1, max: 30 })
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const comment = new Comment({
+      userId: req.body.userId,
+      username: req.body.username,
+      timestamp: formatRelative(subDays(new Date(), 0), new Date()),
+      text: req.body.text,
+      postId: req.params.postId,
+    });
+
+    if (!errors.isEmpty()) {
+      return res.status(500).json({ errors, comment });
+    } else {
+      await comment.save();
+      return res.status(200).json({ message: "Comment saved" });
+    }
+  }),
+];
+
+exports.delete_comment = asyncHandler(async (req, res, next) => {
+  const comment = await Comment.findById(req.body.commentId).exec();
+
+  if (!comment) {
+    const err = { message: "Comment not found", status: 404 };
+    return next(err);
+  } else {
+    await Comment.findByIdAndDelete(comment._id);
+    return res.status(200).json({ message: "Comment deleted" });
+  }
+});
