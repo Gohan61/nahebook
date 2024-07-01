@@ -11,6 +11,7 @@ const CommentModel = require("../models/comments");
 const bcrypt = require("bcryptjs");
 let token;
 const userId = "621ff30d2a3e781873fcb663";
+const username = "testing";
 
 beforeAll(async () => {
   await initializeMongoServer();
@@ -41,6 +42,7 @@ beforeAll(async () => {
     imgUrl: "http://test.io",
     date: "01-01-2022",
     userId: userId,
+    username: username,
     _id: "621ff30d2a3e781873fcb669",
   });
 

@@ -10,7 +10,9 @@ const Postmodel = require("../models/posts");
 const bcrypt = require("bcryptjs");
 let token;
 const userId = "621ff30d2a3e781873fcb663";
+const username = "testing";
 const followerId = "621ff30d2a3e781873fcb664";
+const followerUsername = "hpeter";
 const otherFollowerId = "621ff30d2a3e781873fcb665";
 
 beforeAll(async () => {
@@ -73,6 +75,7 @@ beforeAll(async () => {
     imgUrl: "http://test.io",
     date: "01-01-2022",
     userId: userId,
+    username: username,
     _id: "621ff30d2a3e781873fcb669",
   });
 
@@ -83,6 +86,7 @@ beforeAll(async () => {
     imgUrl: "http://test.io",
     date: "01-01-2022",
     userId: followerId,
+    username: followerUsername,
     _id: "621ff30d2a3e781873fcb690",
   });
 
