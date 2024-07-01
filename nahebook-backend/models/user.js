@@ -14,6 +14,9 @@ const UserSchema = new Schema({
   pendingFollow: [
     { type: Schema.Types.ObjectId, ref: "User", required: false },
   ],
+  receivedRequestFollow: [
+    { type: Schema.Types.ObjectId, ref: "User", required: false },
+  ],
 });
 
 module.exports = mongoose.model("User", UserSchema);
