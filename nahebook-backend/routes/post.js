@@ -23,7 +23,7 @@ router.put(
 );
 
 router.post(
-  "/:postId/comment",
+  "/comment/:postId",
   passport.authenticate("jwt", { session: false }),
   post_controller.new_comment,
 );
