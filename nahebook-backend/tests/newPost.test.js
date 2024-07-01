@@ -64,8 +64,8 @@ test("User can sign in", async () => {
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.username).toBe("testing");
-      expect(res.body.token).not.toBeNull();
-      expect(res.body.userId).not.toBeNull();
+      expect(res.body.token).not.toBeFalsy();
+      expect(res.body.userId).not.toBeFalsy();
       token = res.body.token;
     });
 });
@@ -124,6 +124,30 @@ test("Throws validation error", async () => {
     });
 });
 
+test("User can update a post", async () => {
+  const authorization = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const payload = {
+    text: "Goodbye world",
+    userId: userId,
+  };
+
+  const res = await request(app)
+    .put("/post/621ff30d2a3e781873fcb669")
+    .set(authorization)
+    .set("Content-Type", "application/json")
+    .send(payload)
+    .then((res) => {
+      expect(res.status).toBe(200);
+      expect(res.body.message).not.toBeFalsy();
+      expect(
+        async () => Postmodel.findById("621ff30d2a3e781873fcb669").imgUrl,
+      ).not.toBeFalsy();
+    });
+});
+
 test("User can delete a post", async () => {
   const authorization = {
     Authorization: `Bearer ${token}`,
@@ -135,7 +159,7 @@ test("User can delete a post", async () => {
     .set("Content-Type", "application/json")
     .then((res) => {
       expect(res.status).toBe(200);
-      expect(res.body.message).not.toBeNull();
+      expect(res.body.message).not.toBeFalsy();
     });
 });
 
