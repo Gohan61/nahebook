@@ -62,6 +62,7 @@ beforeAll(async () => {
       bio: "I am new here testing things out for second user",
       _id: "621ff30d2a3e781873fcb665",
       pendingFollow: ["621ff30d2a3e781873fcb663"],
+      receivedRequestFollow: ["621ff30d2a3e781873fcb665"],
     });
 
     await user3.save();
@@ -134,10 +135,18 @@ test("User can send follow request", async () => {
       expect(res.body.message).not.toBeFalsy();
     })
     .then(async () => {
-      user = await Usermodel.findById(userId, "pendingFollow").exec();
-      followedUser = await Usermodel.findById(followerId, "pendingFollow");
+      user = await Usermodel.findById(
+        userId,
+        "pendingFollow receivedRequestFollow",
+      ).exec();
+      followedUser = await Usermodel.findById(
+        followerId,
+        "pendingFollow receivedRequestFollow",
+      );
 
       expect(user.pendingFollow.length).toBe(2);
+      expect(user.receivedRequestFollow.length).toBe(0);
+      expect(followedUser.receivedRequestFollow.length).toBe(1);
       expect(followedUser.pendingFollow.length).toBe(1);
     });
 });
@@ -165,13 +174,17 @@ test("User can accept request", async () => {
       expect(res.body.message).not.toBeFalsy();
     })
     .then(async () => {
-      user = await Usermodel.findById(userId, "following pendingFollow").exec();
+      user = await Usermodel.findById(
+        userId,
+        "following pendingFollow receivedRequestFollow",
+      ).exec();
       followedUser = await Usermodel.findById(
         followerId,
         "following pendingFollow",
       );
       expect(user.following.length).toBe(1);
       expect(followedUser.following.length).toBe(1);
+      expect(user.receivedRequestFollow.length).toBe(0);
       expect(user.pendingFollow.length).toBe(1);
       expect(followedUser.pendingFollow.length).toBe(0);
     });
@@ -200,15 +213,19 @@ test("User can deny request", async () => {
       expect(res.body.message).not.toBeFalsy();
     })
     .then(async () => {
-      user = await Usermodel.findById(userId, "following pendingFollow").exec();
+      user = await Usermodel.findById(
+        userId,
+        "following pendingFollow receivedRequestFollow",
+      ).exec();
       followedUser = await Usermodel.findById(
         otherFollowerId,
-        "following pendingFollow",
+        "following pendingFollow receivedRequestFollow",
       );
-      console.log(user.pendingFollow);
-      console.log(followedUser.pendingFollow);
+      console.log(user.receivedRequestFollow);
       expect(user.following.length).toBe(1);
       expect(followedUser.following.length).toBe(0);
+      expect(user.receivedRequestFollow.length).toBe(0);
+      expect(followedUser.receivedRequestFollow.length).toBe(0);
       expect(user.pendingFollow.length).toBe(0);
       expect(followedUser.pendingFollow.length).toBe(0);
     });
