@@ -82,3 +82,41 @@ exports.delete_post = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: "Post deleted" });
   }
 });
+
+exports.update_post = [
+  body("text", "Maximun post description is 50 characters")
+    .trim()
+    .isLength({ max: 50 })
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    let imgData;
+    const post = await Post.findById(req.params.postId);
+
+    if (req.body.imgUrl) {
+      try {
+        imgData = await uploadToCloudinary(req.body.imgUrl, "nahebook");
+      } catch (e) {
+        return res
+          .status(500)
+          .json({ error: "An error occured uploading your image" });
+      }
+    }
+
+    const updatedPost = new Post({
+      text: req.body.text,
+      imgUrl: imgData || post.imgUrl,
+      date: post.date,
+      userId: req.body.userId,
+      _id: post._id,
+    });
+
+    if (!errors.isEmpty()) {
+      return res.status(500).json({ errors, post });
+    } else {
+      await Post.findByIdAndUpdate(post._id, updatedPost);
+      return res.status(200).json({ message: "Post saved" });
+    }
+  }),
+];
