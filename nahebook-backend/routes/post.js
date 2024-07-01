@@ -10,6 +10,12 @@ router.post(
   post_controller.new_post,
 );
 
+router.delete(
+  "/:postId",
+  passport.authenticate("jwt", { session: false }),
+  post_controller.delete_post,
+);
+
 router.post(
   "/:postId/comment",
   passport.authenticate("jwt", { session: false }),

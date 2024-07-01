@@ -70,3 +70,15 @@ exports.new_comment = [
     }
   }),
 ];
+
+exports.delete_post = asyncHandler(async (req, res, next) => {
+  const post = await Post.findById(req.params.postId).exec();
+
+  if (!post) {
+    const err = { message: "Post not found", status: 404 };
+    return next(err);
+  } else {
+    await Post.findByIdAndDelete(req.params.postId);
+    return res.status(200).json({ message: "Post deleted" });
+  }
+});
