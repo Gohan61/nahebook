@@ -61,14 +61,21 @@ exports.signup = [
 ];
 
 exports.signin = [
-  body("username").trim().isLength({ min: 5 }).escape(),
-  body("password").trim().escape({ min: 5 }),
+  body("username", "Username must be at least 5 characters")
+    .trim()
+    .isLength({ min: 5 })
+    .escape(),
+  body("password", "Password must be at least 5 characters")
+    .trim()
+    .isLength({ min: 5 })
+    .escape(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       res.status(404).json({ message: "Validation failed", errors });
+      return;
     }
     passport.authenticate("local", { session: false }, (err, user, info) => {
       if (err) {
