@@ -13,6 +13,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  font-family: Lato-nav;
+  src: url("../assets/Lato/Lato-Italic.ttf");
+}
+
+@font-face {
+  font-family: Lato-header;
+  src: url("../assets/Lato/Lato-Regular.ttf");
+}
+
+@font-face {
+  font-family: Lato-text;
+  src: url("../assets/Lato/Lato-Light.ttf");
+}
+
 a {
   font-weight: 500;
   color: #646cff;
