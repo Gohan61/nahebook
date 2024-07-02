@@ -6,6 +6,7 @@ const logger = require("morgan");
 // require("./config/database");
 const initializeMongoServer = require("./config/databaseTest");
 initializeMongoServer();
+require("./config/passportTest");
 const cors = require("cors");
 const app = express();
 const routes = require("./routes");
