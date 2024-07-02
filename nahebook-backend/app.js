@@ -6,8 +6,11 @@ const logger = require("morgan");
 // require("./config/database");
 const initializeMongoServer = require("./config/databaseTest");
 initializeMongoServer();
+const cors = require("cors");
 const app = express();
 const routes = require("./routes");
+
+app.use(cors());
 
 // view engine setup
 app.set("view engine", "jade");
