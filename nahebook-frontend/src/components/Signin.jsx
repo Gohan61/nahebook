@@ -4,7 +4,7 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 export default function Signin() {
   const { setLoginStatus } = useOutletContext();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [error, setError] = useState(undefined);
   const [signinForm, setSigninForm] = useState({
     username: "",
     password: "",
@@ -69,11 +69,15 @@ export default function Signin() {
         />
         <button onClick={(e) => handleSignin(e)}>Submit</button>
       </form>
-      {typeof error === "object" ? (
-        error.map((item) => <p key={item}>{item.msg}</p>)
-      ) : (
-        <p className="error">{error}</p>
-      )}
+      <div className="errors" data-testid="signinErrors">
+        {typeof error === "object" ? (
+          error.map((item) => <p key={item.msg}>{item.msg}</p>)
+        ) : typeof error === "string" ? (
+          <p className="error">{error}</p>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 }

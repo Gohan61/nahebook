@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [error, setError] = useState(undefined);
   const [signupForm, setSignupForm] = useState({
     first_name: "",
     last_name: "",
@@ -115,11 +115,15 @@ export default function Signup() {
         ></textarea>
         <button onClick={(e) => handleSignup(e)}>Submit</button>
       </form>
-      {typeof error === "object" ? (
-        error.map((item) => <p key={item}>{item.msg}</p>)
-      ) : (
-        <p className="error">{error}</p>
-      )}
+      <div className="errors" data-testid="signupErrors">
+        {typeof error === "object" ? (
+          error.map((item) => <p key={item}>{item.msg}</p>)
+        ) : typeof error === "string" ? (
+          <p className="error">{error}</p>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 }
