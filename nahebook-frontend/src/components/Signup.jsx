@@ -117,7 +117,7 @@ export default function Signup() {
       </form>
       <div className="errors" data-testid="signupErrors">
         {typeof error === "object" ? (
-          error.map((item) => <p key={item}>{item.msg}</p>)
+          error.map((item) => <p key={item.msg}>{item.msg}</p>)
         ) : typeof error === "string" ? (
           <p className="error">{error}</p>
         ) : (
