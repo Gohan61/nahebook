@@ -18,6 +18,43 @@ vi.mock("react-router-dom", () => {
 });
 
 describe("Signup", () => {
+  it("Should display the validation errors", async () => {
+    const user = userEvent.setup();
+
+    render(<Signup />);
+
+    const first_nameInput = screen.getByLabelText("First name:");
+    const last_nameInput = screen.getByLabelText("Last name:");
+    const usernameInput = screen.getByLabelText("Username:");
+    const passwordInput = screen.getByLabelText("Password");
+    const bioInput = screen.getByLabelText("Bio:");
+    const submitButton = screen.getByText("Submit");
+
+    await userEvent.type(first_nameInput, " ");
+    await userEvent.type(last_nameInput, " ");
+    await userEvent.type(usernameInput, " ");
+    await userEvent.type(passwordInput, " ");
+    await userEvent.type(bioInput, " ");
+
+    await user.click(submitButton);
+
+    expect(
+      await screen.findByText("First name must be between 2 and 50 characters"),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Last name must be between 2 and 50 characters"),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Username must be between 5 and 20 characters"),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Password must be between 5 and 80 characters"),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Bio must be between one and 200 characters"),
+    ).toBeInTheDocument();
+  });
+
   it("Should sign user up", async () => {
     const user = userEvent.setup();
 
