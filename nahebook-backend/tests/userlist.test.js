@@ -152,3 +152,33 @@ test("Returns pendingFollow user in user object and not in users", async () => {
       expect(res.body.user.following.length).toBe(1);
     });
 });
+
+test("User can unfollow another user", async () => {
+  const authorization = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const payload = {
+    unfollowId: followerId,
+  };
+
+  let user;
+  let followedUser;
+
+  const res = await request(app)
+    .post(`/user/unfollow/${userId}`)
+    .set(authorization)
+    .set("Content-Type", "application/json")
+    .send(payload)
+    .then((res) => {
+      expect(res.status).toBe(200);
+      expect(res.body.message).not.toBeFalsy();
+    })
+    .then(async () => {
+      user = await Usermodel.findById(userId, "following").exec();
+      followedUser = await Usermodel.findById(followerId, "following").exec();
+
+      expect(user.following.length).toBe(0);
+      expect(followedUser.following.length).toBe(0);
+    });
+});
