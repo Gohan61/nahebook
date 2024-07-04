@@ -5,7 +5,14 @@
 
 nav {
   height: 100px;
-  padding: 20px;
+  padding: 20px 50px 20px 50px;
   font-family: Lato-nav, Verdana, Geneva, Tahoma, sans-serif;
   font-size: 1.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.links {
+  display: flex;
+  gap: 20px;
 }
