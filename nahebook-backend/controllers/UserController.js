@@ -189,16 +189,31 @@ exports.update_profile = [
 ];
 
 exports.get_user_list = asyncHandler(async (req, res, next) => {
-  const users = await User.find(
-    {},
-    "first_name last_name username age profile_picture following pendingFollow receivedRequestFollow",
-  ).exec();
+  const user = await User.findById(
+    req.params.userId,
+    "following pendingFollow receivedRequestFollow",
+  )
+    .populate("following pendingFollow receivedRequestFollow")
+    .exec();
 
-  if (!users) {
+  const allFollowUsers = user.following
+    .concat(user.pendingFollow, user.receivedRequestFollow)
+    .map((user) => user._id);
+  allFollowUsers.push(user._id);
+
+  const users = await User.find({
+    _id: {
+      $nin: allFollowUsers,
+    },
+  })
+    .select("first_name last_name username")
+    .exec();
+
+  if (!users || !user) {
     const err = { message: "No users found", status: 404 };
     return next(err);
   } else {
-    return res.status(200).json({ users });
+    return res.status(200).json({ users, user, allFollowUsers });
   }
 });
 
