@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import RestOfUsers from "./RestofUsers";
 import ReceivedRequests from "./ReceivedRequests";
@@ -14,6 +14,7 @@ export default function Userlist() {
     users: undefined,
   });
   const [error, setError] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     fetch(url, {
@@ -37,7 +38,7 @@ export default function Userlist() {
       .catch((err) => {
         setError(err);
       });
-  }, [url]);
+  }, [url, refresh]);
 
   if (!userList.user) {
     return <p>Loading</p>;
@@ -47,8 +48,12 @@ export default function Userlist() {
         <h2>All users on Nahebook</h2>
         <Following props={{ user: userList.user }} />
         <PendingFollow props={{ user: userList.user }} />
-        <ReceivedRequests props={{ user: userList.user }} />
-        <RestOfUsers props={{ users: userList.users }} />
+        <ReceivedRequests
+          props={{ user: userList.user, setError, refresh, setRefresh }}
+        />
+        <RestOfUsers
+          props={{ users: userList.users, setError, refresh, setRefresh }}
+        />
       </div>
     );
   }

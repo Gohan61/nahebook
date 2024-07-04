@@ -1,6 +1,42 @@
 import { Link } from "react-router-dom";
 
 export default function ReceivedRequests({ props }) {
+  const handleSubmit = (event, followId, answer) => {
+    event.preventDefault();
+
+    fetch(
+      `http://localhost:3000/user/follow/${localStorage.getItem("userId")}`,
+      {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("Token"),
+        },
+        body: JSON.stringify({
+          followUserId: followId,
+          answer: answer,
+        }),
+      },
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (
+          res.message === "Denied follow request" ||
+          res.message === "Following succesful"
+        ) {
+          props.refresh ? props.setRefresh(false) : props.setRefresh(true);
+        } else {
+          throw res.error.message;
+        }
+      })
+      .catch((err) => {
+        props.setError(err);
+      });
+  };
+
   return (
     <div className="receivedFollow">
       <h3>Received follow requests</h3>
@@ -15,7 +51,13 @@ export default function ReceivedRequests({ props }) {
                   {item.username}:
                 </Link>
                 <span className="firstName"> {item.first_name} </span>
-                <span className="lastName">{item.last_name}</span>
+                <span className="lastName">{item.last_name} </span>
+                <button onClick={(e) => handleSubmit(e, item._id, "accept")}>
+                  Accept
+                </button>
+                <button onClick={(e) => handleSubmit(e, item._id, "deny")}>
+                  Deny
+                </button>
               </li>
             );
           })}
