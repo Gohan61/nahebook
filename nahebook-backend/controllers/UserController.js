@@ -267,8 +267,12 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
       updatedFollowUser.pendingFollow.indexOf(user._id),
       1,
     );
-    updatedFollowUser.receivedRequestFollow.splice(
-      updatedFollowUser.receivedRequestFollow.indexOf(user._id),
+    // updatedFollowUser.receivedRequestFollow.splice(
+    //   updatedFollowUser.receivedRequestFollow.indexOf(user._id),
+    //   1,
+    // );
+    updatedUser.receivedRequestFollow.splice(
+      updatedUser.receivedRequestFollow.indexOf(followUser._id),
       1,
     );
     if (req.body.answer === "accept") {
@@ -279,6 +283,7 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
       await User.findByIdAndUpdate(followUser._id, updatedFollowUser).exec();
       return res.status(200).json({ message: "Following succesful" });
     } else if (req.body.answer === "deny") {
+      console.log(updatedUser);
       await User.findByIdAndUpdate(user._id, updatedUser).exec();
       await User.findByIdAndUpdate(followUser._id, updatedFollowUser).exec();
       return res.status(200).json({ message: "Denied follow request" });
