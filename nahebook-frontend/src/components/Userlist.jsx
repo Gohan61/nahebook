@@ -46,7 +46,9 @@ export default function Userlist() {
     return (
       <div className="userList">
         <h2>All users on Nahebook</h2>
-        <Following props={{ user: userList.user }} />
+        <Following
+          props={{ user: userList.user, setError, refresh, setRefresh }}
+        />
         <PendingFollow props={{ user: userList.user }} />
         <ReceivedRequests
           props={{ user: userList.user, setError, refresh, setRefresh }}
