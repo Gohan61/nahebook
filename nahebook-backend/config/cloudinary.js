@@ -16,4 +16,4 @@ const uploadToCloudinary = async (path, folder = "nahebook") => {
     throw err;
   }
 };
-module.exports = uploadToCloudinary;
+module.exports = { uploadToCloudinary };

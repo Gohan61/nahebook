@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-const uploadToCloudinary = require("../config/cloudinary");
+const { uploadToCloudinary } = require("../config/cloudinary");
 const { formatRelative, subDays, format } = require("date-fns");
 
 exports.get_posts = asyncHandler(async (req, res, next) => {
@@ -41,32 +41,34 @@ exports.new_post = [
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    let imgData;
     const user = await User.findById(req.body.userId);
 
-    if (req.body.imgUrl) {
-      try {
-        imgData = await uploadToCloudinary(req.body.imgUrl, "nahebook");
-      } catch (e) {
-        return res
-          .status(500)
-          .json({ error: "An error occured uploading your image" });
+    try {
+      let imgData = {};
+
+      if (req.body.imgUrl) {
+        const result = await uploadToCloudinary(req.body.imgUrl, "nahebook");
+        imgData = result;
       }
-    }
 
-    const post = new Post({
-      text: req.body.text,
-      imgUrl: imgData,
-      date: format(new Date(), "dd/MM/yyyy"),
-      userId: user._id,
-      username: user.username,
-    });
+      const post = new Post({
+        text: req.body.text,
+        imgUrl: imgData,
+        date: format(new Date(), "dd/MM/yyyy"),
+        userId: user._id,
+        username: user.username,
+      });
 
-    if (!errors.isEmpty()) {
-      return res.status(500).json({ errors, post });
-    } else {
-      await post.save();
-      return res.status(200).json({ message: "Post saved" });
+      if (!errors.isEmpty()) {
+        return res.status(500).json({ errors, post });
+      } else {
+        await post.save();
+        return res.status(200).json({ message: "Post saved" });
+      }
+    } catch (e) {
+      return res
+        .status(500)
+        .json({ error: "An error occured uploading your image" });
     }
   }),
 ];
