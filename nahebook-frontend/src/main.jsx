@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import Profile from "./components/Profile";
 import Userlist from "./components/Userlist";
 import OtherProfiles from "./components/OtherProfiles";
+import NewPost from "./components/NewPost";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "profile", element: <Profile /> },
       { path: "userlist", element: <Userlist /> },
       { path: "userprofiles", element: <OtherProfiles /> },
+      { path: "newpost", element: <NewPost /> },
     ],
   },
 ]);
