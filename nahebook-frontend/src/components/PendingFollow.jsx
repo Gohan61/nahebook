@@ -7,7 +7,7 @@ export default function PendingFollow({ props }) {
       {props.user.pendingFollow.length === 0 ? (
         <p>No pending follow requests</p>
       ) : (
-        <ul>
+        <ul data-testid="pendingFollow">
           {props.user.pendingFollow.map((item) => {
             return (
               <li key={item.username}>

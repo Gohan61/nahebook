@@ -39,7 +39,7 @@ export default function Following({ props }) {
       {props.user.following.length === 0 ? (
         <p>You aren&apos;t following any users</p>
       ) : (
-        <ul>
+        <ul data-testid="following">
           {props.user.following.map((item) => {
             return (
               <li key={item.username}>

@@ -39,7 +39,7 @@ export default function RestOfUsers({ props }) {
       {props.users.length === 0 ? (
         <p>No other users</p>
       ) : (
-        <ul>
+        <ul data-testid="restofusers">
           {props.users.map((item) => {
             return (
               <li key={item.username}>
