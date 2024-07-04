@@ -6,7 +6,7 @@ const PostsSchema = new Schema({
   username: { type: String, ref: "User", required: true },
   date: { type: String, required: true },
   text: { type: String, required: false, maxLength: 50 },
-  imgUrl: { type: String, required: false },
+  imgUrl: { type: Object, required: false },
   likes: [{ type: Schema.Types.ObjectId, required: false, ref: "User" }],
 });
 
