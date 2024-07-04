@@ -218,8 +218,8 @@ exports.get_user_list = asyncHandler(async (req, res, next) => {
 });
 
 exports.follow_user = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.params.userId);
-  const followUser = await User.findById(req.body.followUserId);
+  const user = await User.findById(req.params.userId).exec();
+  const followUser = await User.findById(req.body.followUserId).exec();
 
   if (!user) {
     const err = { message: "No user found", status: 404 };
@@ -267,10 +267,7 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
       updatedFollowUser.pendingFollow.indexOf(user._id),
       1,
     );
-    // updatedFollowUser.receivedRequestFollow.splice(
-    //   updatedFollowUser.receivedRequestFollow.indexOf(user._id),
-    //   1,
-    // );
+
     updatedUser.receivedRequestFollow.splice(
       updatedUser.receivedRequestFollow.indexOf(followUser._id),
       1,
@@ -298,4 +295,57 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
     await User.findByIdAndUpdate(followUser._id, updatedFollowUser).exec();
     return res.status(200).json({ message: "Follow request send" });
   }
+});
+
+exports.unfollow_user = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.userId).exec();
+  const unfollowUser = await User.findById(req.body.unfollowId).exec();
+
+  if (!user || !unfollowUser) {
+    const err = { message: "No user found", status: 404 };
+    return next(err);
+  }
+
+  const updatedUser = new User({
+    first_name: user.first_name,
+    last_name: user.last_name,
+    username: user.username,
+    password: user.password,
+    age: user.age,
+    bio: user.bio,
+    profile_picture: user.profile_picture,
+    posts: user.posts,
+    following: user.following,
+    pendingFollow: user.pendingFollow,
+    receivedRequestFollow: user.receivedRequestFollow,
+    _id: user._id,
+  });
+
+  const updatedFollowUser = new User({
+    first_name: unfollowUser.first_name,
+    last_name: unfollowUser.last_name,
+    username: unfollowUser.username,
+    password: unfollowUser.password,
+    age: unfollowUser.age,
+    bio: unfollowUser.bio,
+    profile_picture: unfollowUser.profile_picture,
+    posts: unfollowUser.posts,
+    following: unfollowUser.following,
+    pendingFollow: unfollowUser.pendingFollow,
+    receivedRequestFollow: unfollowUser.receivedRequestFollow,
+    _id: unfollowUser._id,
+  });
+
+  updatedUser.following.splice(
+    updatedUser.following.indexOf(unfollowUser._id),
+    1,
+  );
+  updatedFollowUser.following.splice(
+    updatedFollowUser.following.indexOf(user._id),
+    1,
+  );
+
+  await User.findByIdAndUpdate(user._id, updatedUser).exec();
+  await User.findByIdAndUpdate(unfollowUser._id, updatedFollowUser).exec();
+  return res.status(200).json({ message: "Unfollow successful" });
 });

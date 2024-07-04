@@ -32,4 +32,10 @@ router.post(
   user_controller.follow_user,
 );
 
+router.post(
+  "/unfollow/:userId",
+  passport.authenticate("jwt", { session: false }),
+  user_controller.unfollow_user,
+);
+
 module.exports = router;
