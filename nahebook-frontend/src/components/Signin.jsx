@@ -35,11 +35,11 @@ export default function Signin() {
           setLoginStatus(true);
           navigate("/");
         } else {
-          throw res.errors;
+          throw res.error || res.errors;
         }
       })
       .catch((err) => {
-        setError(err.errors);
+        setError(err);
       });
   };
 
