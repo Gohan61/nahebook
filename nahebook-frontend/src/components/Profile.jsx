@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
+import Post from "./Post";
 
 export default function Profile() {
   const [url, setUrl] = useState(
@@ -16,7 +17,8 @@ export default function Profile() {
     bio: "",
   });
   const [updateStatus, setUpdateStatus] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+  const { refresh, setRefresh, handleLike, handleUnlike, likeError } =
+    useOutletContext();
 
   useEffect(() => {
     fetch(url, {
@@ -227,26 +229,31 @@ export default function Profile() {
               <p>No posts</p>
             ) : (
               user.posts.map((post) => (
-                <div className="profilePost" key={post._id}>
-                  <p className="text">{post.text}</p>
-                  <p className="date">{post.date}</p>
-                  {post.imgUrl ? <img src={post.imgUrl.url} alt=""></img> : ""}
-                  <p className="likes">
-                    {post.likes.length === 0 ? "No likes" : post.likes.length}
-                  </p>
-                  <button onClick={(e) => handleDelete(e, post._id)}>
-                    Delete post
-                  </button>
-                  <Link to={"/newpost"} state={{ post: post }}>
-                    Update post
-                  </Link>
-                </div>
+                <Post
+                  props={{ post, handleLike, handleUnlike, handleDelete }}
+                  key={post._id}
+                />
               ))
             )}
           </div>
         </>
       )}
-      <p className="error">{error}</p>
+      <div className="errors">
+        {typeof error === "object" ? (
+          error.map((item) => <p key={item.msg}>{item.msg}</p>)
+        ) : typeof error === "string" ? (
+          <p className="error">{error}</p>
+        ) : (
+          ""
+        )}
+        {typeof likeError === "object" ? (
+          likeError.map((item) => <p key={item.msg}>{item.msg}</p>)
+        ) : typeof likeError === "string" ? (
+          <p className="error">{likeError}</p>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 }
