@@ -65,7 +65,7 @@ export default function Profile() {
       })
       .then((res) => {
         if (res.message === "Your profile is updated") {
-          setupdateProfile(false);
+          setUpdateStatus(false);
           setError(undefined);
         } else if (res.message === "Username already exists") {
           setError(res.message);
@@ -222,7 +222,21 @@ export default function Profile() {
           <p className="bio">
             <span>Bio:</span> {user.bio}
           </p>
-          <button onClick={() => setUpdateStatus(true)}>Update profile</button>
+          <button
+            onClick={() => {
+              setUpdateStatus(true);
+              setupdateProfile({
+                first_name: user.first_name,
+                last_name: user.last_name,
+                username: user.username,
+                password: "",
+                age: user.age,
+                bio: user.bio,
+              });
+            }}
+          >
+            Update profile
+          </button>
           <Link to={"/newpost"}>New post</Link>
           <div className="profilePosts">
             {user.posts.length === 0 ? (
