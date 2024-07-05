@@ -203,3 +203,26 @@ exports.new_like = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ message: "Like saved" });
   }
 });
+
+exports.unlike = asyncHandler(async (req, res, next) => {
+  const post = await Post.findById(req.params.postId).exec();
+
+  if (!post) {
+    const err = { message: "No post found", status: 404 };
+    return next(err);
+  } else {
+    const updatedPost = new Post({
+      text: post.text,
+      imgUrl: post.imgUrl,
+      date: post.date,
+      userId: post.userId,
+      username: post.username,
+      _id: post._id,
+      likes: post.likes,
+    });
+
+    updatedPost.likes.splice(updatedPost.likes.indexOf(req.body.username), 1);
+    await Post.findByIdAndUpdate(post._id, updatedPost).exec();
+    return res.status(200).json({ message: "Like removed" });
+  }
+});

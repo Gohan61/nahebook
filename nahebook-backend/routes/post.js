@@ -46,4 +46,10 @@ router.post(
   post_controller.new_like,
 );
 
+router.post(
+  "/unlike/:postId",
+  passport.authenticate("jwt", { session: false }),
+  post_controller.unlike,
+);
+
 module.exports = router;
