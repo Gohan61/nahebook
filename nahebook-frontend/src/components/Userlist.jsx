@@ -56,6 +56,15 @@ export default function Userlist() {
         <RestOfUsers
           props={{ users: userList.users, setError, refresh, setRefresh }}
         />
+        <div className="errors">
+          {typeof error === "object" ? (
+            error.map((item) => <p key={item.msg}>{item.msg}</p>)
+          ) : typeof error === "string" ? (
+            <p className="error">{error}</p>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     );
   }

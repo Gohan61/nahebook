@@ -116,6 +116,15 @@ export default function NewPost() {
           />
           <button onClick={(e) => handleUpdate(e)}>Update</button>
         </form>
+        <div className="errors">
+          {typeof error === "object" ? (
+            error.map((item) => <p key={item.msg}>{item.msg}</p>)
+          ) : typeof error === "string" ? (
+            <p className="error">{error}</p>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     );
   } else {
@@ -141,6 +150,15 @@ export default function NewPost() {
           />
           <button onClick={(e) => handleSubmit(e)}>Submit</button>
         </form>
+        <div className="errors">
+          {typeof error === "object" ? (
+            error.map((item) => <p key={item.msg}>{item.msg}</p>)
+          ) : typeof error === "string" ? (
+            <p className="error">{error}</p>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     );
   }
