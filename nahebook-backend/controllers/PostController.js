@@ -198,7 +198,7 @@ exports.new_like = asyncHandler(async (req, res, next) => {
       likes: post.likes,
     });
 
-    updatedPost.likes.push(req.body.userId);
+    updatedPost.likes.push(req.body.username);
     await Post.findByIdAndUpdate(post._id, updatedPost).exec();
     return res.status(200).json({ message: "Like saved" });
   }
