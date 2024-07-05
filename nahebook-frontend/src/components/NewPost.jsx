@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function NewPost() {
-  const [newPost, setNewPost] = useState({
-    text: undefined,
+  const location = useLocation();
+  const post = location.state ? location.state.post : undefined;
+  const [newPost, setNewPost] = useState(() => {
+    if (post) {
+      return { text: post.text };
+    } else {
+      return { text: undefined };
+    }
   });
   const [error, setError] = useState(undefined);
   const navigate = useNavigate();
@@ -55,28 +61,87 @@ export default function NewPost() {
       });
   };
 
-  return (
-    <div className="newPost">
-      <h2>New post</h2>
-      <form action="" method="post">
-        <label htmlFor="text">Text: </label>
-        <textarea
-          type="text"
-          name="text"
-          id="text"
-          rows={"3"}
-          onChange={(e) => setNewPost({ text: e.target.value })}
-        />
-        <label htmlFor="imgUrl">Upload image</label>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          id="imgUrl"
-          onChange={(e) => handleImage(e)}
-        />
-        <button onClick={(e) => handleSubmit(e)}>Submit</button>
-      </form>
-    </div>
-  );
+  const handleUpdate = (event) => {
+    event.preventDefault();
+
+    fetch(`http://localhost:3000/post/${post._id}`, {
+      mode: "cors",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("Token"),
+      },
+      body: JSON.stringify({
+        userId: localStorage.getItem("userId"),
+        text: newPost.text,
+        imgUrl: undefined || imageBase64,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.message === "Post saved") {
+          navigate("/profile");
+        } else {
+          throw res.errors.errors;
+        }
+      })
+      .catch((err) => {
+        setError(err);
+      });
+  };
+
+  if (post) {
+    return (
+      <div className="updatePost">
+        <h2>Update post</h2>
+        <form action="" method="post">
+          <label htmlFor="text">Text: </label>
+          <textarea
+            type="text"
+            name="text"
+            id="text"
+            rows={"3"}
+            value={newPost.text}
+            onChange={(e) => setNewPost({ text: e.target.value })}
+          />
+          <label htmlFor="imgUrl">Click to upload new image</label>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            id="imgUrl"
+            onChange={(e) => handleImage(e)}
+          />
+          <button onClick={(e) => handleUpdate(e)}>Update</button>
+        </form>
+      </div>
+    );
+  } else {
+    return (
+      <div className="newPost">
+        <h2>New post</h2>
+        <form action="" method="post">
+          <label htmlFor="text">Text: </label>
+          <textarea
+            type="text"
+            name="text"
+            id="text"
+            rows={"3"}
+            onChange={(e) => setNewPost({ text: e.target.value })}
+          />
+          <label htmlFor="imgUrl">Upload image</label>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            id="imgUrl"
+            onChange={(e) => handleImage(e)}
+          />
+          <button onClick={(e) => handleSubmit(e)}>Submit</button>
+        </form>
+      </div>
+    );
+  }
 }

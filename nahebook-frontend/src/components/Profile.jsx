@@ -16,6 +16,7 @@ export default function Profile() {
     bio: "",
   });
   const [updateStatus, setUpdateStatus] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     fetch(url, {
@@ -36,7 +37,7 @@ export default function Profile() {
           setError(res.error.message);
         }
       });
-  }, [url, updateStatus]);
+  }, [url, updateStatus, refresh]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -72,6 +73,32 @@ export default function Profile() {
       })
       .catch((err) => {
         setError(err.errors);
+      });
+  };
+
+  const handleDelete = (event, postId) => {
+    event.preventDefault();
+
+    fetch(`http://localhost:3000/post/${postId}`, {
+      mode: "cors",
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("Token"),
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.message === "Post deleted") {
+          refresh ? setRefresh(false) : setRefresh(true);
+        } else {
+          throw res.error.message;
+        }
+      })
+      .catch((err) => {
+        setError(err);
       });
   };
 
@@ -207,6 +234,12 @@ export default function Profile() {
                   <p className="likes">
                     {post.likes.length === 0 ? "No likes" : post.likes.length}
                   </p>
+                  <button onClick={(e) => handleDelete(e, post._id)}>
+                    Delete post
+                  </button>
+                  <Link to={"/newpost"} state={{ post: post }}>
+                    Update post
+                  </Link>
                 </div>
               ))
             )}
