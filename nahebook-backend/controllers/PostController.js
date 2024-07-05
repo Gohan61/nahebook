@@ -130,6 +130,7 @@ exports.update_post = [
       date: post.date,
       userId: req.body.userId,
       username: post.username,
+      likes: post.likes,
       _id: post._id,
     });
 
