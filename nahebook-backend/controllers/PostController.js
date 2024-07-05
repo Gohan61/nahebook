@@ -59,10 +59,28 @@ exports.new_post = [
         username: user.username,
       });
 
+      const updatedUser = new User({
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
+        password: user.password,
+        age: user.age,
+        bio: user.bio,
+        profile_picture: user.profile_picture,
+        posts: user.posts,
+        following: user.following,
+        pendingFollow: user.pendingFollow,
+        receivedRequestFollow: user.receivedRequestFollow,
+        _id: user._id,
+      });
+
+      updatedUser.posts.push(post._id);
+
       if (!errors.isEmpty()) {
         return res.status(500).json({ errors, post });
       } else {
         await post.save();
+        await User.findByIdAndUpdate(user._id, updatedUser);
         return res.status(200).json({ message: "Post saved" });
       }
     } catch (e) {
