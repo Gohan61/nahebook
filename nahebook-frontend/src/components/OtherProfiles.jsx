@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
+import Post from "./Post";
 
 export default function Profile() {
   const location = useLocation();
@@ -9,6 +10,9 @@ export default function Profile() {
   );
   const [user, setUser] = useState("");
   const [error, setError] = useState(undefined);
+  const notMyProfile = true;
+  const { refresh, setRefresh, handleLike, handleUnlike, likeError } =
+    useOutletContext();
 
   useEffect(() => {
     fetch(url, {
@@ -29,7 +33,7 @@ export default function Profile() {
           setError(res.error.message);
         }
       });
-  }, [url]);
+  }, [url, refresh]);
 
   return (
     <div className="profile">
@@ -59,19 +63,29 @@ export default function Profile() {
               <p>No posts</p>
             ) : (
               user.posts.map((post) => (
-                <div className="profilePost" key={post._id}>
-                  {post}
-                </div>
+                <Post
+                  key={post._id}
+                  props={{
+                    post,
+                    notMyProfile,
+                    handleLike,
+                    handleUnlike,
+                  }}
+                />
               ))
             )}
           </div>
         </>
       )}
-<div className="errors">
+      <div className="errors">
         {typeof error === "object" ? (
           error.map((item) => <p key={item.msg}>{item.msg}</p>)
         ) : typeof error === "string" ? (
-      <p className="error">{error}</p>
+          <p className="error">{error}</p>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 }

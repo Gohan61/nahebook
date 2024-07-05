@@ -15,16 +15,19 @@ export default function Post({ props }) {
           <span>Likes: </span>
           {props.post.likes.length === 0 ? "No likes" : props.post.likes.length}
         </p>
-        <ul style={{ display: like ? "block" : "none" }}>
-          {props.post.likes.length === 0 ? (
-            ""
-          ) : (
-            <li>{props.post.likes.map((user) => user)}</li>
-          )}
-        </ul>
-        <button onClick={() => setLike(!like)}>
-          {!like ? "See who liked this post" : "Hide likes"}
-        </button>
+        {props.post.likes.length === 0 ? (
+          ""
+        ) : (
+          <>
+            <ul style={{ display: like ? "block" : "none" }}>
+              <li>{props.post.likes.map((user) => user)}</li>
+            </ul>
+
+            <button onClick={() => setLike(!like)}>
+              {!like ? "See who liked this post" : "Hide likes"}
+            </button>
+          </>
+        )}
       </div>
       {unlike ? (
         <button
@@ -45,13 +48,18 @@ export default function Post({ props }) {
           Like
         </button>
       )}
-
-      <button onClick={(e) => props.handleDelete(e, props.post._id)}>
-        Delete post
-      </button>
-      <Link to={"/newpost"} state={{ post: props.post }}>
-        Update post
-      </Link>
+      {props.notMyProfile ? (
+        ""
+      ) : (
+        <>
+          <button onClick={(e) => props.handleDelete(e, props.post._id)}>
+            Delete post
+          </button>
+          <Link to={"/newpost"} state={{ post: props.post }}>
+            Update post
+          </Link>
+        </>
+      )}
     </div>
   );
 }
