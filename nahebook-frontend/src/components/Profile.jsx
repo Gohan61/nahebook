@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const [url, setUrl] = useState(
@@ -30,7 +31,7 @@ export default function Profile() {
       })
       .then((res) => {
         if (res.user) {
-          setUser(res.user);
+          setUser({ ...res.user, posts: res.user.posts.reverse() });
         } else {
           setError(res.error.message);
         }
@@ -193,13 +194,19 @@ export default function Profile() {
             <span>Bio:</span> {user.bio}
           </p>
           <button onClick={() => setUpdateStatus(true)}>Update profile</button>
+          <Link to={"/newpost"}>New post</Link>
           <div className="profilePosts">
             {user.posts.length === 0 ? (
               <p>No posts</p>
             ) : (
               user.posts.map((post) => (
                 <div className="profilePost" key={post._id}>
-                  {post}
+                  <p className="text">{post.text}</p>
+                  <p className="date">{post.date}</p>
+                  {post.imgUrl ? <img src={post.imgUrl.url} alt=""></img> : ""}
+                  <p className="likes">
+                    {post.likes.length === 0 ? "No likes" : post.likes.length}
+                  </p>
                 </div>
               ))
             )}

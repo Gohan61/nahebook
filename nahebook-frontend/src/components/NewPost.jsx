@@ -45,7 +45,7 @@ export default function NewPost() {
       })
       .then((res) => {
         if (res.message === "Post saved") {
-          navigate("/");
+          navigate("/profile");
         } else {
           throw res.errors.errors;
         }
