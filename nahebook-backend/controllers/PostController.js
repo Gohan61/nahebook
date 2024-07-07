@@ -78,6 +78,12 @@ exports.new_post = [
 
       if (!errors.isEmpty()) {
         return res.status(500).json({ errors, post });
+      } else if (!req.body.text && !req.body.imgUrl) {
+        return res
+          .status(500)
+          .json({
+            message: "Either text or an image needs to be added to a post",
+          });
       } else {
         await post.save();
         await User.findByIdAndUpdate(user._id, updatedUser);
