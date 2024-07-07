@@ -52,6 +52,8 @@ export default function NewPost() {
       .then((res) => {
         if (res.message === "Post saved") {
           navigate("/profile");
+        } else if (res.message) {
+          throw res.message;
         } else {
           throw res.errors.errors;
         }
@@ -150,7 +152,7 @@ export default function NewPost() {
           />
           <button onClick={(e) => handleSubmit(e)}>Submit</button>
         </form>
-        <div className="errors">
+        <div className="errors" data-testid="newpostErrors">
           {typeof error === "object" ? (
             error.map((item) => <p key={item.msg}>{item.msg}</p>)
           ) : typeof error === "string" ? (

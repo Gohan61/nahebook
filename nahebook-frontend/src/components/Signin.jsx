@@ -34,8 +34,10 @@ export default function Signin() {
           localStorage.setItem("username", res.username);
           setLoginStatus(true);
           navigate("/");
+        } else if (res.message === "Validation failed") {
+          throw res.errors.errors;
         } else {
-          throw res.error || res.errors;
+          throw res.error;
         }
       })
       .catch((err) => {
