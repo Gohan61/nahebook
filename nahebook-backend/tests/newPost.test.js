@@ -126,6 +126,28 @@ test("Throws validation error", async () => {
     });
 });
 
+test("Throws empty post error", async () => {
+  const payload = {
+    text: undefined,
+    imgUrl: undefined,
+    userId: userId,
+  };
+
+  const authorization = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const res = await request(app)
+    .post("/post/new")
+    .set(authorization)
+    .set("Content-Type", "application/json")
+    .send(payload)
+    .then((res) => {
+      expect(res.status).toBe(500);
+      expect(res.body.message).not.toBeFalsy();
+    });
+});
+
 test("User can update a post", async () => {
   const authorization = {
     Authorization: `Bearer ${token}`,
