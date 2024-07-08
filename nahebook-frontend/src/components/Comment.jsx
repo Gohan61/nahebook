@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function Comment({ postId }) {
   const [comment, setComment] = useState("");
@@ -6,6 +6,7 @@ export default function Comment({ postId }) {
   const [listComment, setListComment] = useState(undefined);
   const [refresh, setRefresh] = useState(false);
   const [showComment, setShowComment] = useState(false);
+  const username = useRef(localStorage.getItem("username"));
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -58,6 +59,35 @@ export default function Comment({ postId }) {
       });
   }, [refresh, postId]);
 
+  const handleDelete = (event, commentId) => {
+    event.preventDefault();
+
+    fetch(`http://localhost:3000/post/comment/${postId}`, {
+      mode: "cors",
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("Token"),
+      },
+      body: JSON.stringify({
+        commentId: commentId,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.message === "Comment deleted") {
+          refresh ? setRefresh(false) : setRefresh(true);
+        } else {
+          throw res.error;
+        }
+      })
+      .catch((err) => {
+        setError(err);
+      });
+  };
+
   return (
     <div className="comments">
       <form action="" method="post">
@@ -84,6 +114,15 @@ export default function Comment({ postId }) {
                     <p className="username">{item.username}</p>
                     <p className="timestamp">{item.timestamp}</p>
                     <p className="text">{item.text}</p>
+                    {username.current === item.username ? (
+                      <button
+                        onClick={(e, commentId) => handleDelete(e, item._id)}
+                      >
+                        Delete comment
+                      </button>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 );
               })
