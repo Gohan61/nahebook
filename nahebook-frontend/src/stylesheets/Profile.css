@@ -1,0 +1,57 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr repeat(2, 150px) 1fr 150px;
+}
+
+.profileInfo > img {
+  width: max(100px, 200px);
+  object-fit: fill;
+  grid-area: 1 / 1 / 2 / 3;
+  justify-self: center;
+}
+
+.profileInfo p,
+.profileInfo span {
+  font-size: 1.2em;
+  height: fit-content;
+}
+
+.profileInfo span {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.profileInfo p {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  text-align: center;
+}
+
+.profileInfo .bio {
+  grid-area: 4 / 1 / 5 / 3;
+  width: max(200px, 400px);
+}
+
+.profileInfo button {
+  height: 50px;
+  width: 180px;
+  justify-self: center;
+}
+
+.profileInfo a {
+  justify-self: center;
+  font-size: 1em;
+  color: black;
+  height: 30px;
+  padding: 10px;
+  background-color: rgb(198, 191, 184);
+  border-radius: 10px;
+}

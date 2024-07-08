@@ -42,22 +42,24 @@ export default function Profile() {
         <p>Loading</p>
       ) : (
         <>
-          <img src={user.profile_picture} alt="Avatar of your user profile" />
-          <p className="first_name">
-            <span>First name:</span> {user.first_name}
-          </p>
-          <p className="last_name">
-            <span>Last name:</span> {user.last_name}
-          </p>
-          <p className="username">
-            <span>Username:</span> {user.username}
-          </p>
-          <p className="age">
-            <span>Age:</span> {user.age ? user.age : "Not specified"}
-          </p>
-          <p className="bio">
-            <span>Bio:</span> {user.bio}
-          </p>
+          <div className="profileInfo">
+            <img src={user.profile_picture} alt="Avatar of your user profile" />
+            <p className="first_name">
+              <span>First name:</span> {user.first_name}
+            </p>
+            <p className="last_name">
+              <span>Last name:</span> {user.last_name}
+            </p>
+            <p className="username">
+              <span>Username:</span> {user.username}
+            </p>
+            <p className="age">
+              <span>Age:</span> {user.age ? user.age : "Not specified"}
+            </p>
+            <p className="bio">
+              <span>Bio:</span> {user.bio}
+            </p>
+          </div>
           <div className="profilePosts">
             {user.posts.length === 0 ? (
               <p>No posts</p>

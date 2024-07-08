@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Post from "./Post";
 import "../stylesheets/Forms.css";
+import "../stylesheets/Profile.css";
 
 export default function Profile() {
   const [url, setUrl] = useState(
@@ -206,38 +207,41 @@ export default function Profile() {
         <p>Loading</p>
       ) : (
         <>
-          <img src={user.profile_picture} alt="Avatar of your user profile" />
-          <p className="first_name">
-            <span>First name:</span> {user.first_name}
-          </p>
-          <p className="last_name">
-            <span>Last name:</span> {user.last_name}
-          </p>
-          <p className="username">
-            <span>Username:</span> {user.username}
-          </p>
-          <p className="age">
-            <span>Age:</span> {user.age ? user.age : "Not specified"}
-          </p>
-          <p className="bio">
-            <span>Bio:</span> {user.bio}
-          </p>
-          <button
-            onClick={() => {
-              setUpdateStatus(true);
-              setupdateProfile({
-                first_name: user.first_name,
-                last_name: user.last_name,
-                username: user.username,
-                password: "",
-                age: user.age,
-                bio: user.bio,
-              });
-            }}
-          >
-            Update profile
-          </button>
-          <Link to={"/newpost"}>New post</Link>
+          <div className="profileInfo">
+            <img src={user.profile_picture} alt="Avatar of your user profile" />
+            <p className="first_name">
+              <span>First name:</span> {user.first_name}
+            </p>
+            <p className="last_name">
+              <span>Last name:</span> {user.last_name}
+            </p>
+            <p className="username">
+              <span>Username:</span> {user.username}
+            </p>
+            <p className="age">
+              <span>Age:</span> {user.age ? user.age : "Not specified"}
+            </p>
+            <p className="bio">
+              <span>Bio:</span> {user.bio}
+            </p>
+            <button
+              onClick={() => {
+                setUpdateStatus(true);
+                setupdateProfile({
+                  first_name: user.first_name,
+                  last_name: user.last_name,
+                  username: user.username,
+                  password: "",
+                  age: user.age,
+                  bio: user.bio,
+                });
+              }}
+            >
+              Update profile
+            </button>
+            <Link to={"/newpost"}>New post</Link>
+          </div>
+
           <div className="profilePosts">
             {user.posts.length === 0 ? (
               <p>No posts</p>
