@@ -36,6 +36,8 @@ export default function Feedpage() {
           throw res.error.message;
         } else if (res.error.message === "Could not find own posts") {
           throw res.error.message;
+        } else {
+          throw [{ msg: "Something went wrong" }];
         }
       })
       .catch((err) => {
@@ -44,7 +46,20 @@ export default function Feedpage() {
   }, [url, JSON.stringify(feed), refresh]);
 
   if (feed.ownPosts.length === 0 && feed.followerPosts.length === 0) {
-    return <p>Loading</p>;
+    return (
+      <>
+        <p>Loading</p>
+        <div className="errors" data-testid="feedErrors">
+          {typeof error === "object" ? (
+            error.map((item) => <p key={item.msg}>{item.msg}</p>)
+          ) : typeof error === "string" ? (
+            <p className="error">{error}</p>
+          ) : (
+            ""
+          )}
+        </div>
+      </>
+    );
   } else {
     return (
       <div className="feed">
@@ -60,6 +75,15 @@ export default function Feedpage() {
             key={post._id}
           />
         ))}
+        <div className="errors" data-testid="feedErrors">
+          {typeof error === "object" ? (
+            error.map((item) => <p key={item.msg}>{item.msg}</p>)
+          ) : typeof error === "string" ? (
+            <p className="error">{error}</p>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     );
   }
