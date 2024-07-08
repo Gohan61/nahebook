@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+import Comment from "./Comment";
 
 export default function Post({ props }) {
   const [like, setLike] = useState(false);
@@ -60,6 +61,7 @@ export default function Post({ props }) {
           </Link>
         </>
       )}
+      <Comment postId={props.post._id} />
     </div>
   );
 }
