@@ -9,6 +9,7 @@ const Usermodel = require("../models/user");
 const Postmodel = require("../models/posts");
 const CommentModel = require("../models/comments");
 const bcrypt = require("bcryptjs");
+const { set } = require("mongoose");
 let token;
 const userId = "621ff30d2a3e781873fcb663";
 const username = "testing";
@@ -104,6 +105,21 @@ test("User can post new comment", async () => {
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.message).toBe("Comment saved");
+    });
+});
+
+test("Returns list of comments", async () => {
+  const authorization = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const res = await request(app)
+    .get("/post/comment/621ff30d2a3e781873fcb669")
+    .set(authorization)
+    .set("Content-Type", "application/json")
+    .then((res) => {
+      expect(res.status).toBe(200);
+      expect(res.body.comments).not.toBeFalsy();
     });
 });
 
