@@ -115,4 +115,22 @@ describe("Comment", () => {
 
     expect(await screen.findByText("kitty")).toBeInTheDocument();
   });
+
+  it("Should delete a comment", async () => {
+    const user = userEvent.setup();
+
+    render(<Profile />);
+
+    const showComment = await screen.findAllByRole("button", {
+      name: "Show comments",
+    });
+    const deleteComment = await screen.findAllByRole("button", {
+      name: "Delete comment",
+    });
+
+    await user.click(showComment[0]);
+    await user.click(deleteComment[0]);
+
+    expect(screen.queryByText("kitty")).not.toBeInTheDocument();
+  });
 });
