@@ -1,0 +1,23 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.images {
+  width: clamp(300px, 900px, 80vw);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+  grid-template-rows: auto;
+  overflow: auto;
+  justify-content: center;
+  border-right: 2px solid var(--background-green);
+  border-left: 2px solid var(--background-green);
+}
+
+img {
+  width: max(200px, 400px);
+  height: auto;
+  object-fit: fill;
+}
