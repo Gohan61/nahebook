@@ -79,11 +79,9 @@ exports.new_post = [
       if (!errors.isEmpty()) {
         return res.status(500).json({ errors, post });
       } else if (!req.body.text && !req.body.imgUrl) {
-        return res
-          .status(500)
-          .json({
-            message: "Either text or an image needs to be added to a post",
-          });
+        return res.status(500).json({
+          message: "Either text or an image needs to be added to a post",
+        });
       } else {
         await post.save();
         await User.findByIdAndUpdate(user._id, updatedUser);
@@ -157,10 +155,11 @@ exports.new_comment = [
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
+    const user = await User.findById(req.body.userId);
 
     const comment = new Comment({
       userId: req.body.userId,
-      username: req.body.username,
+      username: user.username,
       timestamp: formatRelative(subDays(new Date(), 0), new Date()),
       text: req.body.text,
       postId: req.params.postId,
@@ -168,6 +167,8 @@ exports.new_comment = [
 
     if (!errors.isEmpty()) {
       return res.status(500).json({ errors, comment });
+    } else if (!user) {
+      return res.status(404).json({ message: "User not found" });
     } else {
       await comment.save();
       return res.status(200).json({ message: "Comment saved" });
