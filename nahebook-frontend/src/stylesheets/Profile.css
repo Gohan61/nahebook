@@ -55,3 +55,11 @@
   background-color: rgb(198, 191, 184);
   border-radius: 10px;
 }
+
+.profilePosts {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 20px;
+  border: 2px solid var(--background-green);
+}

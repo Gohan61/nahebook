@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Comment from "./Comment";
 import "../stylesheets/Forms.css";
+import "../stylesheets/Post.css";
 
 export default function Post({ props }) {
   const [like, setLike] = useState(false);
@@ -33,6 +34,7 @@ export default function Post({ props }) {
       </div>
       {unlike ? (
         <button
+          className="likeButton"
           onClick={(e) => {
             props.handleUnlike(e, props.post._id);
             setUnlike(!unlike);
@@ -42,6 +44,7 @@ export default function Post({ props }) {
         </button>
       ) : (
         <button
+          className="likeButton"
           onClick={(e) => {
             props.handleLike(e, props.post._id);
             setUnlike(!unlike);
@@ -54,10 +57,17 @@ export default function Post({ props }) {
         ""
       ) : (
         <>
-          <button onClick={(e) => props.handleDelete(e, props.post._id)}>
+          <button
+            className="deleteButton"
+            onClick={(e) => props.handleDelete(e, props.post._id)}
+          >
             Delete post
           </button>
-          <Link to={"/newpost"} state={{ post: props.post }}>
+          <Link
+            className="updatePost"
+            to={"/newpost"}
+            state={{ post: props.post }}
+          >
             Update post
           </Link>
         </>
