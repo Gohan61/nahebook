@@ -49,7 +49,7 @@ export default function Post({ props }) {
           Like
         </button>
       )}
-      {props.notMyProfile ? (
+      {props.postInFeed || props.notMyProfile ? (
         ""
       ) : (
         <>
