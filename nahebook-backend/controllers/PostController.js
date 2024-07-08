@@ -147,6 +147,16 @@ exports.update_post = [
   }),
 ];
 
+exports.get_comments = asyncHandler(async (req, res, next) => {
+  const comments = await Comment.find({ postId: req.params.postId }).exec();
+
+  if (!comments) {
+    return res.status(404).json({ message: "No comments found" });
+  } else {
+    return res.status(200).json({ comments });
+  }
+});
+
 exports.new_comment = [
   body("text", "Comment must be between 1 and 30 characters")
     .trim()

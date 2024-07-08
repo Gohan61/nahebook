@@ -28,6 +28,12 @@ router.put(
   post_controller.update_post,
 );
 
+router.get(
+  "/comment/:postId",
+  passport.authenticate("jwt", { session: false }),
+  post_controller.get_comments,
+);
+
 router.post(
   "/comment/:postId",
   passport.authenticate("jwt", { session: false }),
