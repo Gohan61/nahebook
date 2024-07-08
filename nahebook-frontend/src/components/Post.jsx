@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Comment from "./Comment";
+import "../stylesheets/Forms.css";
 
 export default function Post({ props }) {
   const [like, setLike] = useState(false);

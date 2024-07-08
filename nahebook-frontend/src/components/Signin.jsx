@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
+import "../stylesheets/Forms.css";
 
 export default function Signin() {
   const { setLoginStatus } = useOutletContext();
@@ -48,6 +49,15 @@ export default function Signin() {
   return (
     <div className="signinContainer">
       <h2>Sign in</h2>
+      <div className="errors" data-testid="signinErrors">
+        {typeof error === "object" ? (
+          error.map((item) => <p key={item.msg}>{item.msg}</p>)
+        ) : typeof error === "string" ? (
+          <p className="error">{error}</p>
+        ) : (
+          ""
+        )}
+      </div>
       <form action="" method="post" className="signinForm">
         <label htmlFor="username">Username: </label>
         <input
@@ -71,15 +81,6 @@ export default function Signin() {
         />
         <button onClick={(e) => handleSignin(e)}>Submit</button>
       </form>
-      <div className="errors" data-testid="signinErrors">
-        {typeof error === "object" ? (
-          error.map((item) => <p key={item.msg}>{item.msg}</p>)
-        ) : typeof error === "string" ? (
-          <p className="error">{error}</p>
-        ) : (
-          ""
-        )}
-      </div>
     </div>
   );
 }

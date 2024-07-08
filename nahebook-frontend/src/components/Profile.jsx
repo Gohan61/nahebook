@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Post from "./Post";
+import "../stylesheets/Forms.css";
 
 export default function Profile() {
   const [url, setUrl] = useState(
@@ -107,6 +108,21 @@ export default function Profile() {
   if (updateStatus) {
     return (
       <div className="updateForm">
+        <div className="errors" data-testid="updateFormErrors">
+          {typeof error === "string" ? (
+            <p>{error}</p>
+          ) : typeof error === "object" ? (
+            error.map((item) => {
+              return (
+                <p className="error" key={item.path}>
+                  {item.msg}
+                </p>
+              );
+            })
+          ) : (
+            ""
+          )}
+        </div>
         <form action="" method="put" className="profileUpdateForm">
           <label htmlFor="first_name">First name: </label>
           <input
@@ -179,22 +195,6 @@ export default function Profile() {
             Cancel
           </button>
         </form>
-
-        <div className="errors" data-testid="updateFormErrors">
-          {typeof error === "string" ? (
-            <p>{error}</p>
-          ) : typeof error === "object" ? (
-            error.map((item) => {
-              return (
-                <p className="error" key={item.path}>
-                  {item.msg}
-                </p>
-              );
-            })
-          ) : (
-            ""
-          )}
-        </div>
       </div>
     );
   }

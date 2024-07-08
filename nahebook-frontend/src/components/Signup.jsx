@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../stylesheets/Forms.css";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -51,6 +52,15 @@ export default function Signup() {
   return (
     <div className="signupContainer">
       <h2>Sign up</h2>
+      <div className="errors" data-testid="signupErrors">
+        {typeof error === "object" ? (
+          error.map((item) => <p key={item.msg}>{item.msg}</p>)
+        ) : typeof error === "string" ? (
+          <p className="error">{error}</p>
+        ) : (
+          ""
+        )}
+      </div>
       <form action="" method="post" className="signupForm">
         <label htmlFor="first_name">First name: </label>
         <input
@@ -115,15 +125,6 @@ export default function Signup() {
         ></textarea>
         <button onClick={(e) => handleSignup(e)}>Submit</button>
       </form>
-      <div className="errors" data-testid="signupErrors">
-        {typeof error === "object" ? (
-          error.map((item) => <p key={item.msg}>{item.msg}</p>)
-        ) : typeof error === "string" ? (
-          <p className="error">{error}</p>
-        ) : (
-          ""
-        )}
-      </div>
     </div>
   );
 }

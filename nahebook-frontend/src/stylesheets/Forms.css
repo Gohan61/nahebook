@@ -1,0 +1,47 @@
+h2 {
+  font-size: 1.4em;
+}
+
+.signinContainer,
+.signupContainer,
+.updateForm,
+.newPost {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.signinForm,
+.signupForm,
+.profileUpdateForm,
+.newPostForm {
+  display: flex;
+  flex-direction: column;
+  width: max(200px, 400px);
+  align-items: center;
+  gap: 20px;
+}
+
+.signinForm label,
+.signupForm label,
+.profileUpdateForm label,
+.newPostForm label {
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.signinForm input,
+.signupForm input,
+.signupForm textarea,
+.profileUpdateForm input,
+.profileUpdateForm textarea {
+  width: 100%;
+}
+
+.errors {
+  font-size: 1.1em;
+  font-weight: 700;
+  font-style: italic;
+  color: brown;
+}

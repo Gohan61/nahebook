@@ -133,7 +133,16 @@ export default function NewPost() {
     return (
       <div className="newPost">
         <h2>New post</h2>
-        <form action="" method="post">
+        <div className="errors" data-testid="newpostErrors">
+          {typeof error === "object" ? (
+            error.map((item) => <p key={item.msg}>{item.msg}</p>)
+          ) : typeof error === "string" ? (
+            <p className="error">{error}</p>
+          ) : (
+            ""
+          )}
+        </div>
+        <form action="" method="post" className="newPostForm">
           <label htmlFor="text">Text: </label>
           <textarea
             type="text"
@@ -152,15 +161,6 @@ export default function NewPost() {
           />
           <button onClick={(e) => handleSubmit(e)}>Submit</button>
         </form>
-        <div className="errors" data-testid="newpostErrors">
-          {typeof error === "object" ? (
-            error.map((item) => <p key={item.msg}>{item.msg}</p>)
-          ) : typeof error === "string" ? (
-            <p className="error">{error}</p>
-          ) : (
-            ""
-          )}
-        </div>
       </div>
     );
   }
