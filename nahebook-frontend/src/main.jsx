@@ -10,6 +10,7 @@ import Profile from "./components/Profile";
 import Userlist from "./components/Userlist";
 import OtherProfiles from "./components/OtherProfiles";
 import NewPost from "./components/NewPost";
+import Feedpage from "./components/Feedpage";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: "userlist", element: <Userlist /> },
       { path: "userprofiles", element: <OtherProfiles /> },
       { path: "newpost", element: <NewPost /> },
+      { path: "feed", element: <Feedpage /> },
     ],
   },
 ]);

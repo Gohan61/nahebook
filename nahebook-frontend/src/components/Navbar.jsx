@@ -23,6 +23,7 @@ export default function Navbar({ props }) {
             </button>
             <Link to={"profile"}>My profile</Link>
             <Link to={"userlist"}>User list</Link>
+            <Link to={"feed"}>Feed</Link>
           </>
         ) : (
           <>
