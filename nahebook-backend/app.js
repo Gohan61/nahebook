@@ -3,11 +3,11 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const routes = require("./routes");
 require("./config/database");
 require("./config/passport");
 const cors = require("cors");
 const app = express();
-const routes = require("./routes");
 
 const corsOptions = {
   origin: ["https://nahebook-odin-frontend.netlify.app"],
