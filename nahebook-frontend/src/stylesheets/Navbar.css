@@ -1,6 +1,6 @@
 nav {
   height: 100px;
-  padding: 20px 50px 20px 50px;
+  padding: 20px max(2rem, 50vw - 1156px /2);
   font-family: Lato-nav, Verdana, Geneva, Tahoma, sans-serif;
   font-size: 1.5em;
   display: flex;
