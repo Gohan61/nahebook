@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useOutletContext } from "react-router-dom";
 import Post from "./Post";
+import he from "he";
 
 export default function Profile() {
   const location = useLocation();
@@ -45,19 +46,19 @@ export default function Profile() {
           <div className="profileInfo">
             <img src={user.profile_picture} alt="Avatar of your user profile" />
             <p className="first_name">
-              <span>First name:</span> {user.first_name}
+              <span>First name:</span> {he.decode(user.first_name)}
             </p>
             <p className="last_name">
-              <span>Last name:</span> {user.last_name}
+              <span>Last name:</span> {he.decode(user.last_name)}
             </p>
             <p className="username">
-              <span>Username:</span> {user.username}
+              <span>Username:</span> {he.decode(user.username)}
             </p>
             <p className="age">
               <span>Age:</span> {user.age ? user.age : "Not specified"}
             </p>
             <p className="bio">
-              <span>Bio:</span> {user.bio}
+              <span>Bio:</span> {he.decode(user.bio)}
             </p>
           </div>
           <div className="profilePosts">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Comment from "./Comment";
+import he from "he";
 import "../stylesheets/Forms.css";
 import "../stylesheets/Post.css";
 
@@ -10,13 +11,13 @@ export default function Post({ props }) {
 
   return (
     <div className="profilePost">
-      <p className="text">{props.post.text}</p>
+      <p className="text">{he.decode(props.post.text)}</p>
       <Link
         className="profileLink"
         to={"/userprofiles"}
         state={{ userId: props.post.userId }}
       >
-        {props.post.username}
+        {he.decode(props.post.username)}
       </Link>
       <p className="date">{props.post.date}</p>
       {props.post.imgUrl ? <img src={props.post.imgUrl.url} alt=""></img> : ""}
@@ -30,7 +31,7 @@ export default function Post({ props }) {
         ) : (
           <>
             <ul style={{ display: like ? "block" : "none" }}>
-              <li>{props.post.likes.map((user) => user)}</li>
+              <li>{props.post.likes.map((user) => he.decode(user))}</li>
             </ul>
 
             <button onClick={() => setLike(!like)}>

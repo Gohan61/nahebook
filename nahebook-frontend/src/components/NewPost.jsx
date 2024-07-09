@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import he from "he";
 
 export default function NewPost() {
   const location = useLocation();
@@ -105,7 +106,7 @@ export default function NewPost() {
             name="text"
             id="text"
             rows={"3"}
-            value={newPost.text}
+            value={he.decode(newPost.text)}
             onChange={(e) => setNewPost({ text: e.target.value })}
           />
           <label htmlFor="imgUrl">Click to upload new image</label>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import Post from "./Post";
+import he from "he";
 import "../stylesheets/Forms.css";
 import "../stylesheets/Profile.css";
 
@@ -134,7 +135,7 @@ export default function Profile() {
             type="text"
             name="first_name"
             id="first_name"
-            value={updateProfile.first_name}
+            value={he.decode(updateProfile.first_name)}
             onChange={(e) =>
               setupdateProfile({ ...updateProfile, first_name: e.target.value })
             }
@@ -144,7 +145,7 @@ export default function Profile() {
             type="text"
             id="last_name"
             name="last_name"
-            value={updateProfile.last_name}
+            value={he.decode(updateProfile.last_name)}
             onChange={(e) =>
               setupdateProfile({ ...updateProfile, last_name: e.target.value })
             }
@@ -154,7 +155,7 @@ export default function Profile() {
             type="text"
             id="username"
             name="username"
-            value={updateProfile.username}
+            value={he.decode(updateProfile.username)}
             onChange={(e) =>
               setupdateProfile({ ...updateProfile, username: e.target.value })
             }
@@ -185,7 +186,7 @@ export default function Profile() {
             id="bio"
             name="bio"
             rows={"8"}
-            value={updateProfile.bio}
+            value={he.decode(updateProfile.bio)}
             onChange={(e) =>
               setupdateProfile({ ...updateProfile, bio: e.target.value })
             }
@@ -214,19 +215,19 @@ export default function Profile() {
           <div className="profileInfo">
             <img src={user.profile_picture} alt="Avatar of your user profile" />
             <p className="first_name">
-              <span>First name:</span> {user.first_name}
+              <span>First name:</span> {he.decode(user.first_name)}
             </p>
             <p className="last_name">
-              <span>Last name:</span> {user.last_name}
+              <span>Last name:</span> {he.decode(user.last_name)}
             </p>
             <p className="username">
-              <span>Username:</span> {user.username}
+              <span>Username:</span> {he.decode(user.username)}
             </p>
             <p className="age">
               <span>Age:</span> {user.age ? user.age : "Not specified"}
             </p>
             <p className="bio">
-              <span>Bio:</span> {user.bio}
+              <span>Bio:</span> {he.decode(user.bio)}
             </p>
             <button
               onClick={() => {

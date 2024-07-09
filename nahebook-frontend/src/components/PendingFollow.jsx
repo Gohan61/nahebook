@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import he from "he";
 
 export default function PendingFollow({ props }) {
   return (
@@ -12,10 +13,10 @@ export default function PendingFollow({ props }) {
             return (
               <li key={item.username}>
                 <Link to={"/userprofiles"} state={{ userId: item._id }}>
-                  {item.username}:
+                  {he.decode(item.username)}:
                 </Link>
-                <span className="firstName"> {item.first_name} </span>
-                <span className="lastName">{item.last_name}</span>
+                <span className="firstName">{he.decode(item.first_name)} </span>
+                <span className="lastName">{he.decode(item.last_name)}</span>
               </li>
             );
           })}

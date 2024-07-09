@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import he from "he";
 
 export default function Comment({ postId }) {
   const [comment, setComment] = useState("");
@@ -111,9 +112,9 @@ export default function Comment({ postId }) {
             ? listComment.map((item) => {
                 return (
                   <div className="singleComment" key={item._id}>
-                    <p className="username">{item.username}</p>
+                    <p className="username">{he.decode(item.username)}</p>
                     <p className="timestamp">{item.timestamp}</p>
-                    <p className="text">{item.text}</p>
+                    <p className="text">{he.decode(item.text)}</p>
                     {username.current === item.username ? (
                       <button
                         onClick={(e, commentId) => handleDelete(e, item._id)}
