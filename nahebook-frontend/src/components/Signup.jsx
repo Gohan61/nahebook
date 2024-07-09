@@ -17,7 +17,7 @@ export default function Signup() {
   const handleSignup = (event) => {
     event.preventDefault();
 
-    fetch("http://localhost:3000/user/signup", {
+    fetch("https://nahebook-backend.fly.dev/user/signup", {
       mode: "cors",
       method: "POST",
       headers: {

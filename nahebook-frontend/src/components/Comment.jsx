@@ -14,7 +14,7 @@ export default function Comment({ postId }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    fetch(`http://localhost:3000/post/comment/${postId}`, {
+    fetch(`https://nahebook-backend.fly.dev/post/comment/${postId}`, {
       mode: "cors",
       method: "POST",
       headers: {
@@ -44,7 +44,7 @@ export default function Comment({ postId }) {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/post/comment/${postId}`, {
+    fetch(`https://nahebook-backend.fly.dev/post/comment/${postId}`, {
       mode: "cors",
       method: "GET",
       headers: {
@@ -65,7 +65,7 @@ export default function Comment({ postId }) {
   const handleDelete = (event, commentId) => {
     event.preventDefault();
 
-    fetch(`http://localhost:3000/post/comment/${postId}`, {
+    fetch(`https://nahebook-backend.fly.dev/post/comment/${postId}`, {
       mode: "cors",
       method: "DELETE",
       headers: {

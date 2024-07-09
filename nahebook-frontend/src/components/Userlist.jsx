@@ -8,7 +8,7 @@ import "../stylesheets/Userlist.css";
 
 export default function Userlist() {
   const [url, setUrl] = useState(
-    `http://localhost:3000/user/list/${localStorage.getItem("userId")}`,
+    `https://nahebook-backend.fly.dev/user/list/${localStorage.getItem("userId")}`,
   );
   const [userList, setUserList] = useState({
     user: undefined,

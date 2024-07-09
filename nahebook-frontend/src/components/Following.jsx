@@ -5,7 +5,7 @@ export default function Following({ props }) {
     event.preventDefault();
 
     fetch(
-      `http://localhost:3000/user/unfollow/${localStorage.getItem("userId")}`,
+      `https://nahebook-backend.fly.dev/user/unfollow/${localStorage.getItem("userId")}`,
       {
         mode: "cors",
         method: "POST",

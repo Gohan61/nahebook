@@ -6,7 +6,7 @@ export default function ReceivedRequests({ props }) {
     event.preventDefault();
 
     fetch(
-      `http://localhost:3000/user/follow/${localStorage.getItem("userId")}`,
+      `https://nahebook-backend.fly.dev/user/follow/${localStorage.getItem("userId")}`,
       {
         mode: "cors",
         method: "POST",

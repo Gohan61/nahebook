@@ -34,7 +34,7 @@ export default function NewPost() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    fetch("http://localhost:3000/post/new", {
+    fetch("https://nahebook-backend.fly.dev/post/new", {
       mode: "cors",
       method: "POST",
       headers: {
@@ -67,7 +67,7 @@ export default function NewPost() {
   const handleUpdate = (event) => {
     event.preventDefault();
 
-    fetch(`http://localhost:3000/post/${post._id}`, {
+    fetch(`https://nahebook-backend.fly.dev/post/${post._id}`, {
       mode: "cors",
       method: "PUT",
       headers: {

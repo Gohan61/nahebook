@@ -7,7 +7,7 @@ import "../stylesheets/Profile.css";
 
 export default function Profile() {
   const [url, setUrl] = useState(
-    `http://localhost:3000/user/profile/${localStorage.getItem("userId")}`,
+    `https://nahebook-backend.fly.dev/user/profile/${localStorage.getItem("userId")}`,
   );
   const [user, setUser] = useState("");
   const [error, setError] = useState(undefined);
@@ -87,7 +87,7 @@ export default function Profile() {
     const deletePrompt = confirm("Are you sure you want to delete this post?");
 
     if (deletePrompt) {
-      fetch(`http://localhost:3000/post/${postId}`, {
+      fetch(`https://nahebook-backend.fly.dev/post/${postId}`, {
         mode: "cors",
         method: "DELETE",
         headers: {

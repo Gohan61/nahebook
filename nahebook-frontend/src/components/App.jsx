@@ -17,7 +17,7 @@ function App() {
   const handleLike = (event, postId) => {
     event.preventDefault();
 
-    fetch(`http://localhost:3000/post/like/${postId}`, {
+    fetch(`https://nahebook-backend.fly.dev/post/like/${postId}`, {
       mode: "cors",
       method: "POST",
       headers: {
@@ -46,7 +46,7 @@ function App() {
   const handleUnlike = (event, postId) => {
     event.preventDefault();
 
-    fetch(`http://localhost:3000/post/unlike/${postId}`, {
+    fetch(`https://nahebook-backend.fly.dev/post/unlike/${postId}`, {
       mode: "cors",
       method: "POST",
       headers: {

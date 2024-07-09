@@ -7,7 +7,7 @@ export default function Profile() {
   const location = useLocation();
   const userIdProp = location.state.userId;
   const [url, setUrl] = useState(
-    `http://localhost:3000/user/profile/${userIdProp}`,
+    `https://nahebook-backend.fly.dev/user/profile/${userIdProp}`,
   );
   const [user, setUser] = useState("");
   const [error, setError] = useState(undefined);

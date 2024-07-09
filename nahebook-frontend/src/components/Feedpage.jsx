@@ -4,7 +4,7 @@ import { useOutletContext } from "react-router-dom";
 
 export default function Feedpage() {
   const [url, setUrl] = useState(
-    `http://localhost:3000/post/${localStorage.getItem("userId")}`,
+    `https://nahebook-backend.fly.dev/post/${localStorage.getItem("userId")}`,
   );
   const [feed, setFeed] = useState({
     ownPosts: [],
