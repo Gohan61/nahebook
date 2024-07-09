@@ -3,15 +3,19 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-// require("./config/database");
-const initializeMongoServer = require("./config/databaseTest");
-initializeMongoServer();
-require("./config/passportTest");
+require("./config/database");
+require("./config/passport");
 const cors = require("cors");
 const app = express();
 const routes = require("./routes");
 
-app.use(cors());
+const corsOptions = {
+  origin: ["https://nahebook-odin-frontend.netlify.app"],
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set("view engine", "jade");
