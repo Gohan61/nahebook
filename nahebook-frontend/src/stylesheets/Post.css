@@ -4,6 +4,12 @@
   display: flex;
   flex-direction: column;
   width: max(300px, 600px);
+  background-color: rgb(56, 86, 3, 0.1);
+  padding: 10px;
+}
+
+.profileLink {
+  color: rgb(3, 63, 204);
 }
 
 .text {
@@ -15,6 +21,11 @@
   padding: 0;
   margin: 0;
   font-size: 0.9em;
+}
+
+img {
+  width: max(300px, 600px);
+  object-fit: contain;
 }
 
 .likes {
@@ -61,6 +72,10 @@
   padding: 10px;
   background-color: rgb(198, 191, 184);
   border-radius: 10px;
+}
+
+.comments {
+  margin-top: 20px;
 }
 
 .comments,
