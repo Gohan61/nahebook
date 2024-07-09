@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import he from "he";
+import "../stylesheets/Comment.css";
 
 export default function Comment({ postId }) {
   const [comment, setComment] = useState("");
