@@ -4,6 +4,7 @@ import RestOfUsers from "./RestofUsers";
 import ReceivedRequests from "./ReceivedRequests";
 import PendingFollow from "./PendingFollow";
 import Following from "./Following";
+import "../stylesheets/Userlist.css";
 
 export default function Userlist() {
   const [url, setUrl] = useState(
