@@ -93,3 +93,20 @@ img {
   width: 100px;
   margin: 20px 0 20px 0;
 }
+
+@media (max-width: 600px) {
+  .profilePost {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--background-green);
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color: rgb(56, 86, 3, 0.1);
+    padding: 10px;
+  }
+
+  img {
+    width: 300px;
+    object-fit: contain;
+  }
+}
