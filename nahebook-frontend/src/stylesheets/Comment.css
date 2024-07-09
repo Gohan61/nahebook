@@ -4,10 +4,11 @@
   padding: 0 10px 0 10px;
 }
 
-.username {
+.usernameComment {
   font-size: 1.1em;
   font-weight: bold;
   margin-bottom: 0;
+  color: rgb(3, 63, 204);
 }
 
 .timestamp {

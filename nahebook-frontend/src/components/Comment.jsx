@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import he from "he";
+import { Link } from "react-router-dom";
 import "../stylesheets/Comment.css";
 
 export default function Comment({ postId }) {
@@ -113,7 +114,13 @@ export default function Comment({ postId }) {
             ? listComment.map((item) => {
                 return (
                   <div className="singleComment" key={item._id}>
-                    <p className="username">{he.decode(item.username)}</p>
+                    <Link
+                      to={"/userprofiles"}
+                      state={{ userId: item.userId }}
+                      className="usernameComment"
+                    >
+                      {he.decode(item.username)}
+                    </Link>
                     <p className="timestamp">{item.timestamp}</p>
                     <p className="text">{he.decode(item.text)}</p>
                     {username.current === item.username ? (
