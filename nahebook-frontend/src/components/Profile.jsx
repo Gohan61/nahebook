@@ -83,27 +83,31 @@ export default function Profile() {
   const handleDelete = (event, postId) => {
     event.preventDefault();
 
-    fetch(`http://localhost:3000/post/${postId}`, {
-      mode: "cors",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("Token"),
-      },
-    })
-      .then((res) => {
-        return res.json();
+    const deletePrompt = confirm("Are you sure you want to delete this post?");
+
+    if (deletePrompt) {
+      fetch(`http://localhost:3000/post/${postId}`, {
+        mode: "cors",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("Token"),
+        },
       })
-      .then((res) => {
-        if (res.message === "Post deleted") {
-          refresh ? setRefresh(false) : setRefresh(true);
-        } else {
-          throw res.error.message;
-        }
-      })
-      .catch((err) => {
-        setError(err);
-      });
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.message === "Post deleted") {
+            refresh ? setRefresh(false) : setRefresh(true);
+          } else {
+            throw res.error.message;
+          }
+        })
+        .catch((err) => {
+          setError(err);
+        });
+    }
   };
 
   if (updateStatus) {
