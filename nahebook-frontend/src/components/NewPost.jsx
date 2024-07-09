@@ -97,9 +97,9 @@ export default function NewPost() {
 
   if (post) {
     return (
-      <div className="updatePost">
+      <div className="updatePostContainer">
         <h2>Update post</h2>
-        <form action="" method="post">
+        <form action="" method="post" className="updatePostForm">
           <label htmlFor="text">Text: </label>
           <textarea
             type="text"

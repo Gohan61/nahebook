@@ -5,7 +5,8 @@ h2 {
 .signinContainer,
 .signupContainer,
 .updateForm,
-.newPost {
+.newPost,
+.updatePostContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -15,7 +16,8 @@ h2 {
 .signinForm,
 .signupForm,
 .profileUpdateForm,
-.newPostForm {
+.newPostForm,
+.updatePostForm {
   display: flex;
   flex-direction: column;
   width: max(200px, 400px);
@@ -26,7 +28,8 @@ h2 {
 .signinForm label,
 .signupForm label,
 .profileUpdateForm label,
-.newPostForm label {
+.newPostForm label,
+.updatePostForm label {
   font-size: 1.1em;
   font-weight: 500;
 }
