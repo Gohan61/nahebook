@@ -11,6 +11,13 @@ export default function Post({ props }) {
   return (
     <div className="profilePost">
       <p className="text">{props.post.text}</p>
+      <Link
+        className="profileLink"
+        to={"/userprofiles"}
+        state={{ userId: props.post.userId }}
+      >
+        {props.post.username}
+      </Link>
       <p className="date">{props.post.date}</p>
       {props.post.imgUrl ? <img src={props.post.imgUrl.url} alt=""></img> : ""}
       <div className="likes">
