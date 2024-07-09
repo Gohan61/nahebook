@@ -40,7 +40,7 @@ export default function Post({ props }) {
           </>
         )}
       </div>
-      {unlike ? (
+      {props.post.likes.includes(localStorage.getItem("username")) ? (
         <button
           className="likeButton"
           onClick={(e) => {
