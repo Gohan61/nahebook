@@ -31,7 +31,9 @@ export default function Post({ props }) {
         ) : (
           <>
             <ul style={{ display: like ? "block" : "none" }}>
-              <li>{props.post.likes.map((user) => he.decode(user))}</li>
+              {props.post.likes.map((user) => (
+                <li key={user}>{he.decode(user)}</li>
+              ))}
             </ul>
 
             <button onClick={() => setLike(!like)}>
