@@ -16,6 +16,7 @@ export default function NewPost() {
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
   const [imageBase64, setImageBase64] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const setFileToBase64 = (file) => {
     const reader = new FileReader();
@@ -33,6 +34,7 @@ export default function NewPost() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
 
     fetch("https://nahebook-backend.fly.dev/post/new", {
       mode: "cors",
@@ -51,6 +53,8 @@ export default function NewPost() {
         return res.json();
       })
       .then((res) => {
+        setLoading(false);
+
         if (res.message === "Post saved") {
           navigate("/profile");
         } else if (res.message) {
@@ -99,7 +103,12 @@ export default function NewPost() {
     return (
       <div className="updatePostContainer">
         <h2>Update post</h2>
-        <form action="" method="post" className="updatePostForm">
+        <form
+          action=""
+          method="post"
+          className="updatePostForm"
+          encType="multipart/form-data"
+        >
           <label htmlFor="text">Text: </label>
           <textarea
             type="text"
@@ -162,6 +171,7 @@ export default function NewPost() {
           />
           <button onClick={(e) => handleSubmit(e)}>Submit</button>
         </form>
+        {loading ? <p>Loading</p> : ""}
       </div>
     );
   }
