@@ -46,6 +46,41 @@ export default function Signin() {
       });
   };
 
+  const guestSignin = (event) => {
+    event.preventDefault();
+
+    fetch("http://localhost:3000/user/signin", {
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: "testing",
+        password: "testing",
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.token !== undefined) {
+          localStorage.setItem("Token", `Bearer ${res.token}`);
+          localStorage.setItem("userId", res.userId);
+          localStorage.setItem("username", res.username);
+          setLoginStatus(true);
+          navigate("/");
+        } else if (res.message === "Validation failed") {
+          throw res.errors.errors;
+        } else {
+          throw res.error;
+        }
+      })
+      .catch((err) => {
+        setError(err);
+      });
+  };
+
   return (
     <div className="signinContainer">
       <h2>Sign in</h2>
@@ -80,6 +115,7 @@ export default function Signin() {
           }
         />
         <button onClick={(e) => handleSignin(e)}>Submit</button>
+        <button onClick={(e) => guestSignin(e)}>Guest sign in</button>
       </form>
     </div>
   );

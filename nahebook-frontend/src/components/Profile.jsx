@@ -229,22 +229,28 @@ export default function Profile() {
             <p className="bio">
               <span>Bio:</span> {he.decode(user.bio)}
             </p>
-            <button
-              onClick={() => {
-                setUpdateStatus(true);
-                setupdateProfile({
-                  first_name: user.first_name,
-                  last_name: user.last_name,
-                  username: user.username,
-                  password: "",
-                  age: user.age,
-                  bio: user.bio,
-                });
-              }}
-            >
-              Update profile
-            </button>
-            <Link to={"/newpost"}>New post</Link>
+            {user.username === "testing" ? (
+              ""
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    setUpdateStatus(true);
+                    setupdateProfile({
+                      first_name: user.first_name,
+                      last_name: user.last_name,
+                      username: user.username,
+                      password: "",
+                      age: user.age,
+                      bio: user.bio,
+                    });
+                  }}
+                >
+                  Update profile
+                </button>
+                <Link to={"/newpost"}>New post</Link>
+              </>
+            )}
           </div>
 
           <div className="profilePosts">
